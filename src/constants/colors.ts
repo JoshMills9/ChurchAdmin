@@ -1,0 +1,11 @@
+export const COLORS = {
+    onBOARDING: '#1A1A1A',
+    BACKGROUND: '#121212',
+    PRIMARY: '#FF4500',
+    SECONDARY: '#FFF8E7',
+    CREATEBUTTON: '#00FFB8',
+    PRIMARYTEXT: '#ffffff',
+    SECONDARYTEXT: '#B0B0B0',
+    MID: '#1F1F1F',
+    LOGINBUTTON: 'rgb(51, 69, 64)'
+}
