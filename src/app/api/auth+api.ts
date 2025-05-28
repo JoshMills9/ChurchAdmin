@@ -2,7 +2,7 @@
 
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import mongoose from 'mongoose';
-import User from '../../backend/mongoose'; // Your Mongoose model
+import User from '../../backend/mongoose';
 
 const MONGO_URI = process.env.MONGODB_KEY;
 
