@@ -20,6 +20,11 @@ const AdminSignupScreen = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [closeAlert, setCloseAlert] = useState(false)
 
+  const user = {
+    churchName,
+    phoneNumber,
+  }
+
   const sendWhatsApp = (phoneNumber: string, message: string) => {
   const url = `whatsapp://send?phone=${phoneNumber.replace('+', '')}&text=${encodeURIComponent(message)}`;
   Linking.openURL(url).catch(() => {
@@ -29,22 +34,27 @@ const AdminSignupScreen = () => {
   });
 };
 
-const signupWithPhoneNumber = async (phoneNumber: string) => {
-    try {
-      const code = await VerificationCode(phoneNumber);
+const signupWithPhoneNumber = async (value: any) => {
+    if(!churchName || !phoneNumber){
+      Alert.alert('Error', 'Please fill all fields');
+      return
+    }else{
+          try {
+            const {code, number} = await VerificationCode(value);
 
-      // Send the code via WhatsApp
-      sendWhatsApp(phoneNumber, `Your Church Admin verification code is ${code}`);
-  
-      // Navigate to verification screen with the code
-      router.push({
-        pathname: '/(auth)/Verification',
-        params: { code }, // Make sure `Verification` screen expects this param
-      });
-    } catch (error) {
-      console.error('Error sending verification code:', error);
-      Alert.alert('Error', 'Could not send verification code.');
-    }
+            // Send the code via WhatsApp
+            sendWhatsApp(number, `Your Church Admin verification code is ${code}`);
+        
+            // Navigate to verification screen with the code
+            router.push({
+              pathname: '/(auth)/Verification',
+              params: { code }, // Make sure `Verification` screen expects this param
+            });
+          } catch (error) {
+            console.error('Error sending verification code:', error);
+            Alert.alert('Error', 'Could not send verification code.');
+          }
+        }
   };
   
 
@@ -68,7 +78,7 @@ const signupWithPhoneNumber = async (phoneNumber: string) => {
                 </View>
 
                 <View>
-                    <TouchableOpacity onPress={() => signupWithPhoneNumber(phoneNumber)} style={styles.continueView}>
+                    <TouchableOpacity onPress={() => signupWithPhoneNumber(user)} style={styles.continueView}>
                        <Text style={styles.continueTxt}>Continue</Text>
                     </TouchableOpacity>
                 </View>

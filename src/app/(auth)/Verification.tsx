@@ -9,7 +9,7 @@ import { router, useLocalSearchParams } from 'expo-router'
 
 const VerificationScreen = () => {
   const {code} = useLocalSearchParams()
-
+    console.log(code)
   const dimensions = useWindowDimensions();
   const styles = verificationStyles(dimensions);
 

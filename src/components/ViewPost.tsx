@@ -196,7 +196,7 @@ const ViewPost = ({onClose, item}: {onClose: any, item: any}) => {
                                         <View style={styles.commentView}>
                                             <View style={{width: 50, height: 50 , borderRadius: 50, justifyContent:'center', alignItems: 'center', elevation: 5, backgroundColor: 'rgba(24, 29, 28, 0.85)'}}>
                                                 {item.img ?
-                                                    <Image source={item.img} style={{width: 50, height: 50 , borderRadius: 50}} />
+                                                    <Image source={item.img} resizeMode='contain' style={{width: 50, height: 50 , borderRadius: 50}} />
                                                     :
                                                     <Ionicons name='person-sharp' size={25} color={'gray'}  />
                                                 }   
@@ -266,7 +266,7 @@ const modalStyles = (dimensions: any) => StyleSheet.create({
         fontWeight: '500'
     },
     bottomView: {
-        height: 80,
+        height: dimensions.height >= 700 ? 120 : 80,
         width: dimensions.width,
         backgroundColor: '#000',
     },

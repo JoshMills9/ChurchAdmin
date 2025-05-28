@@ -12,6 +12,8 @@ const signUpStyles = (dimensions: any) => StyleSheet.create({
         paddingHorizontal: 20,
         justifyContent: 'space-between',
         alignItems: 'center',
+        width: dimensions.width,
+        alignSelf:'center'
     },
     bottomView: {
         height: dimensions.height >= 700 ? dimensions.height * 0.55 : dimensions.height * 0.645,

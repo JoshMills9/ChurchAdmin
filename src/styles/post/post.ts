@@ -1,33 +1,34 @@
+import { COLORS } from "@/src/constants/colors";
 import { StyleSheet } from "react-native";
 
 
 
 export const postStyles = (dimensions : any) => StyleSheet.create({
     container: {
-        flex: 1,
+        height: dimensions.height,
         backgroundColor: 'rgb(2, 9, 8)',
-        justifyContent: 'space-between',
-        alignItems:'center'
+        width: dimensions.width,
+        justifyContent: 'space-between'
     },
     gradient: {
-        height: '40%',
+        height: '100%',
         width: '100%',
         justifyContent: 'flex-end',
       },
 
       mainView: {
         height: 500,
-        width: '100%',
-        alignSelf: 'center',
+        width: dimensions.width,
+        justifyContent: 'center'
       },
       textInput: {
         height: '100%',
-        padding: 15,
+        paddingHorizontal: 10,
         width: '100%',
         fontSize: 35,
         fontWeight: '500',
         textAlign: 'center',
-        color: 'white'
+        color: 'white',
       },
       cameraView: {
         backgroundColor: "rgba(0,0,0,0.5)",
@@ -49,6 +50,17 @@ export const postStyles = (dimensions : any) => StyleSheet.create({
         color: 'white',
         fontSize: 18,
         fontWeight: '600'
+      },
+      micView: {
+        width: 150,
+        height: 150,
+        borderRadius: 75,
+        borderStyle: 'dotted',
+        borderWidth: 2,
+        borderColor: COLORS.CREATEBUTTON,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center'
       }
 }) 
 

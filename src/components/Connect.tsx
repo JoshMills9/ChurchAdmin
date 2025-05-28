@@ -17,15 +17,15 @@ const Connect = ({connected} : any) => {
   const [Item, setItem] = useState({})
 
   const data = [
-    { id: '1', user: '@josh', name: 'Gloryland AG', img: require('../assets/images/d6.jpeg')},
-    { id: '2', user: '@nemesis', name: 'Perez Chapel Int',  img: require('../assets/images/d1.jpeg')},
-    { id: '3', user: '@brainiac', name: 'The Mega Church'},
-    { id: '4', user: '@mills', name: 'Machaceh Church'},
-    { id: '5', user: '@churchadmin', name: ' Lorem ipsum dolor siMaecenas', img: require('../assets/images/d3.jpeg')},
-    { id: '6', user: '@roselyn', name: 'Pentecost Church'},    
-    { id: '7', user: '@mills', name: 'Machaceh Church'},
-    { id: '8', user: '@churchadmin', name: ' Lorem ipsum dolor siMaecenas'},
-    { id: '9', user: '@roselyn', name: 'Pentecost Church',  img: require('../assets/images/d8.jpeg')}
+    { id: '1', user: '@josh', title: 'Gloryland AG', img: require('../assets/images/d6.jpeg')},
+    { id: '2', user: '@nemesis', title: 'Perez Chapel Int',  img: require('../assets/images/d1.jpeg')},
+    { id: '3', user: '@brainiac', title: 'The Mega Church'},
+    { id: '4', user: '@mills', title: 'Machaceh Church'},
+    { id: '5', user: '@churchadmin', title: ' Lorem ipsum dolor siMaecenas', img: require('../assets/images/d3.jpeg')},
+    { id: '6', user: '@roselyn', title: 'Pentecost Church'},    
+    { id: '7', user: '@mills', title: 'Machaceh Church'},
+    { id: '8', user: '@churchadmin', title: ' Lorem ipsum dolor siMaecenas'},
+    { id: '9', user: '@roselyn', title: 'Pentecost Church',  img: require('../assets/images/d8.jpeg')}
   
     ]
 
@@ -40,7 +40,7 @@ const Connect = ({connected} : any) => {
         {data && data.length !== 0 ? 
             <FlatList
               data={connect || connected ? data?.filter(church => 
-                church.name && church.user && (church.name.toLowerCase().includes(search.toLowerCase()) || 
+                church.title && church.user && (church.title.toLowerCase().includes(search.toLowerCase()) || 
                 church.user.toLowerCase().includes(search.toLowerCase()))) : []}
               style={{height:'100%',}}
               keyExtractor={(item) => item.id} 
@@ -64,7 +64,7 @@ const Connect = ({connected} : any) => {
                         }
                       </View>
                       <View style={{gap: 3, width: 190}}>
-                        <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.user}>{item.name}</Text>
+                        <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.user}>{item.title}</Text>
                         <Text style={styles.comment}>{item.user}</Text>
                       </View>
                     </View>

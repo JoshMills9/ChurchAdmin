@@ -1,6 +1,6 @@
-export const VerificationCode = async (phoneNumber: string): Promise<string | null> => {
-    if (!phoneNumber || typeof phoneNumber !== 'string') {
-      console.error('Invalid phone number provided to VerificationCode:', phoneNumber);
+export const VerificationCode = async (value: any): Promise<string | null> => {
+    if (!value.phoneNumber || typeof value.phoneNumber !== 'string') {
+      console.error('Invalid phone number provided to VerificationCode:', value.phoneNumber);
       return null;
     }
   
@@ -10,7 +10,7 @@ export const VerificationCode = async (phoneNumber: string): Promise<string | nu
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ phoneNumber }),
+        body: JSON.stringify(value),
       });
   
       const data = await response.json();
@@ -21,7 +21,7 @@ export const VerificationCode = async (phoneNumber: string): Promise<string | nu
       }
   
       console.log('Verification sent:', data);
-      return data.code;
+      return data;
     } catch (error) {
       console.error('Error in VerificationCode:', error);
       return null;

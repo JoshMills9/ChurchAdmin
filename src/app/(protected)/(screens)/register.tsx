@@ -6,7 +6,7 @@ import Feather from '@expo/vector-icons/Feather';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, Pressable, ScrollView, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
 const Register = () => {
@@ -55,13 +55,13 @@ useEffect(() => {
 }, [showPicker])
 
 
-useLayoutEffect(() => {
+/*useLayoutEffect(() => {
   navigation.setOptions({
     title: 'Update',
     headerRight: () => (<Ionicons name='pencil-outline' size={25} style={{ height: 50,paddingHorizontal: 5,paddingVertical: 10, width: 40}}  color={'white'}/>),
   });
 }, [navigation]);
-
+*/
 
 
 

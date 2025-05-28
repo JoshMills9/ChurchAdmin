@@ -37,7 +37,7 @@ export const ModalView = (props: any) => {
       {/* Image with rounded top and overlay content */}
       <View style={styles.imageWrapper}>
         <ImageBackground
-          source={props.item.img ? props.item.img : defaultImage}
+          source={{uri: props.item.img ? props.item.img : defaultImage}}
           style={[styles.image]}
         >
 
@@ -138,8 +138,8 @@ export const ModalView = (props: any) => {
                 {false ? <Image style={{width: dimensions.height >= 700 ? 50 : 40, height: dimensions.height >= 700 ? 50 : 40,borderRadius: 50,}} source={require('../assets/images/d2.jpeg')} /> : <Ionicons name="person-sharp" size={dimensions.height >= 700 ? 20 : 18} color={'lightgray'} />}
                 </View>
                 <View style={{width: '100%'}}>
-                  <Text style={{color: 'white', fontSize: dimensions.height >= 700 ? 15 : 13, fontWeight: '500'}} adjustsFontSizeToFit={true} numberOfLines={1}>{props?.item?.speaker}</Text>
-                  <Text style={{color: 'gray', fontSize: dimensions.height >= 700 ? 14 : 12, }}>Speaker</Text>
+                  <Text style={{color: 'white', fontSize: dimensions.height >= 700 ? 15 : 13, fontWeight: '500'}} adjustsFontSizeToFit={true} numberOfLines={1}>{props?.item?.host}</Text>
+                  <Text style={{color: 'gray', fontSize: dimensions.height >= 700 ? 14 : 12, }}>Host</Text>
                 </View>
               </View>
               
@@ -148,8 +148,8 @@ export const ModalView = (props: any) => {
                   {true ? <Image style={{width: dimensions.height >= 700 ? 50 : 40, height: dimensions.height >= 700 ? 50 : 40,borderRadius: 50,}} source={require('../assets/images/d2.jpeg')} /> : <Ionicons name="person-sharp" size={dimensions.height >= 700 ? 20 : 18} color={'lightgray'} />}
                 </View>
                 <View>
-                  <Text style={{color: 'white', fontSize: dimensions.height >= 700 ? 15 : 13, fontWeight: '500'}} adjustsFontSizeToFit={true} numberOfLines={1}>{props?.item?.organiser}</Text>
-                  <Text style={{color: 'gray', fontSize: dimensions.height >= 700 ? 14 : 12, }}>Organiser</Text>
+                  <Text style={{color: 'white', fontSize: dimensions.height >= 700 ? 15 : 13, fontWeight: '500'}} adjustsFontSizeToFit={true} numberOfLines={1}>{props?.item?.guest}</Text>
+                  <Text style={{color: 'gray', fontSize: dimensions.height >= 700 ? 14 : 12, }}>Guest</Text>
                 </View>
               </View>
             </View>

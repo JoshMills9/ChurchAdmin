@@ -1,6 +1,8 @@
+import Feather from '@expo/vector-icons/Feather';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, ImageBackground, Pressable, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { COLORS } from '../constants/colors';
 import { homeStyles } from '../styles/home/home.styles';
@@ -25,7 +27,22 @@ const Feeds = () => {
   const styles = homeStyles(dimensions)
   const [isVisible, setIsvisble] = useState(false)
   const [Item, setItem] = useState({})
+  const [event, setEvent] = useState<any>([])
 
+  useEffect(() => {
+      const getEvents = async() => {
+        try{
+          const value = await AsyncStorage.getItem('events')
+          if(value !== null){
+            const data = JSON.parse(value)
+            setEvent((prevList: any) => [data, ...prevList])
+          }
+        }catch(err){
+          console.log(err)
+        }
+      }
+      getEvents()
+  },[])
 
  
   
@@ -34,21 +51,21 @@ const Feeds = () => {
       <View style={styles.container}>
         <View style={styles.eventView}>
           <View>
-            {data.length !== 0 ? 
+            {event.length !== 0 ? 
                   <FlatList 
-                  data={data?.sort((a, b) => a.img - b.img)} 
+                  data={event?.sort((a: any, b: any) => a.img - b.img)} 
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                   keyExtractor={(item, index) => item.id}
                   style={{width: dimensions.width >= 400 ? 380 : 380 }}
                   renderItem={({item, index}) => (
-                    <Pressable onPress={() => {setIsvisble(!isVisible); setItem(item)}}  style={{ borderRadius: 15, opacity: isVisible ? 0.8 : 1, width: dimensions.width >= 400 ? 250 :  220, marginRight: dimensions.height >= 700 ? 10 : 5,overflow:'hidden'}}> 
-                      <ImageBackground  source={item.img} style={{width: dimensions.width >= 400 ? 250 : 220, height:dimensions.height >= 700 ? 120 : 85 ,justifyContent: 'space-between', alignItems: 'flex-end',padding: 5, borderRadius: 15, }} width={250} height={120}>
+                    <Pressable onPress={() => {setIsvisble(!isVisible); setItem(item)}}  style={{ borderRadius: 15, opacity: isVisible ? 0.8 : 1, width: event.length === 1 ? dimensions.width >= 400 ? 360 : 250: dimensions.width >= 400 ? 250 : 220, marginRight: dimensions.height >= 700 ? 10 : 5,overflow:'hidden'}}> 
+                      <ImageBackground  source={{uri: item.img}} style={{width: event.length === 1 ? dimensions.width >= 400 ? 360 : 250: dimensions.width >= 400 ? 250 : 220, height:dimensions.height >= 700 ? 120 : 85 ,justifyContent: 'space-between', alignItems: 'flex-end',padding: 5, borderRadius: 15, }} >
                         <View style={{ width: dimensions.height >= 700 ? 25 : 20,justifyContent:"center",alignItems:"center", borderRadius:12.5, height: dimensions.height >= 700 ? 25 : 20,paddingHorizontal:5, backgroundColor:"rgba(0,0,0,0.5)"}}>  
                           <Ionicons name='ellipsis-horizontal-sharp' color={'white'} size={dimensions.height >= 700 ? 15 : 12}/>
                         </View>
                         <View style={{width: dimensions.width >= 400 ? 150 : 100 , justifyContent:"center",alignItems:"center",borderRadius:10, height: dimensions.height >= 700 ? 33 : 25,paddingHorizontal:5, backgroundColor:"rgba(0,0,0,0.5)"}}>
-                          <Text style={{fontSize: dimensions.height >= 700 ? 16 : 13,fontWeight:"600",color:"white"}} adjustsFontSizeToFit={true} numberOfLines={1}>{"No upcoming event"}</Text>
+                          <Text style={{fontSize: dimensions.height >= 700 ? 16 : 13,fontWeight:"600",color:"white"}} adjustsFontSizeToFit={true} numberOfLines={1}>{item.title}</Text>
                         </View>
                       </ImageBackground>
                     </Pressable>
@@ -78,7 +95,7 @@ const Feeds = () => {
             <Link href={'/(protected)/(screens)/register'} asChild push>
              <TouchableOpacity style={styles.quickItem}>
                 <View style={styles.quickIcon}>
-                  <Ionicons name='person-add-outline' size={dimensions.height >= 700 ? 20 : 14} color={'white'} />
+                  <Feather name='user-plus' size={dimensions.height >= 700 ? 20 : 14} color={'white'} />
                 </View>
                 <Text style={styles.quickText}>Register Member</Text>
              </TouchableOpacity>

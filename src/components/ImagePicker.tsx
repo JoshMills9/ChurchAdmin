@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS } from '../constants/colors';
 import { Picker } from '../constants/picker';
 
-const ImagePickerComponent = ({Close, profile, isVideo,}: {Close: any, profile: any, isVideo: any}) => {
+const ImagePickerComponent = ({Close, profile, isVideo, imageOut, videoOut, remove}: {Close: any, profile: any, isVideo: any, imageOut: any,videoOut:any, remove: any}) => {
 
   const dimensions = useWindowDimensions();
   const styles = modalStyle(dimensions)
@@ -19,49 +18,30 @@ const ImagePickerComponent = ({Close, profile, isVideo,}: {Close: any, profile: 
         const img = await Picker('image')
         if(img){
           Close(false)
-          handleSave(img)
+          imageOut(img)
         }
     }else if(media === 'camera'){
         const img = await Picker('camera')
         if(img){
           Close(false)
-          handleSave(img)
+          imageOut(img)
         }
-    }   
-  }
-
-
-      //saving profile pic to localstorage
-    const handleSave = async (Img: any) => {
-      if(profile === 'Choose photo'){
-      try {
-        await AsyncStorage.setItem('Photo', JSON.stringify(Img));
-      } catch (e) {
-        console.error('Failed to save the data to the storage', e);
-      }
     }else{
-      try {
-        await AsyncStorage.setItem('Profile', JSON.stringify(Img));
-      } catch (e) {
-        console.error('Failed to save the data to the storage', e);
-      }
-    }
-  };
-
-  const handleRemoveProfile = async() => {
-    try {
-      await AsyncStorage.removeItem('Profile');
-      Close(false)
-    } catch (e) {
-      console.error('Failed to save the data to the storage', e);
+      const vid = await Picker('video')
+        if(vid){
+          Close(false)
+          videoOut(vid)
+        }
     }
   }
+
+
 
 
 
   return (
     <Modal backdropColor={'transparent'}  visible={true} onRequestClose={() => Close(false)}  style={styles.container} animationType='slide' presentationStyle='formSheet' >
-      <TouchableOpacity onPress={() => Close(false)} style={styles.container}>
+      <Pressable onPress={() => Close(false)} style={styles.container}>
           <Pressable style={styles.main}>
             <View style={{width: 60, height:4, borderRadius: 50 ,backgroundColor: 'lightgray' , position: 'absolute', top: 8, alignSelf: 'center'}} />
             
@@ -70,7 +50,7 @@ const ImagePickerComponent = ({Close, profile, isVideo,}: {Close: any, profile: 
                 <Ionicons name='close-sharp' size={24} color={COLORS.SECONDARYTEXT}  />
               </TouchableOpacity>
               <Text style={styles.text}>{profile}</Text>
-              <TouchableOpacity onPress={handleRemoveProfile}>
+              <TouchableOpacity onPress={() => remove('')}>
                 <Ionicons name='trash-outline' size={24} color={COLORS.SECONDARYTEXT}  />
               </TouchableOpacity>
             </View>
@@ -89,7 +69,7 @@ const ImagePickerComponent = ({Close, profile, isVideo,}: {Close: any, profile: 
               </View>
               {isVideo && 
                 <View style={styles.cameraView}>
-                  <TouchableOpacity  style={styles.Icons}>
+                  <TouchableOpacity onPress={() => pickMediaFile('video')}   style={styles.Icons}>
                     <Ionicons name='videocam-outline' size={30} color={COLORS.CREATEBUTTON} />
                   </TouchableOpacity>
                   <Text style={styles.camertext}>Video</Text>
@@ -97,7 +77,7 @@ const ImagePickerComponent = ({Close, profile, isVideo,}: {Close: any, profile: 
               }
             </View>
           </Pressable>
-      </TouchableOpacity>
+      </Pressable>
     </Modal>
   )
 }

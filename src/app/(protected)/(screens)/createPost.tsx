@@ -30,6 +30,9 @@ const CreatePost = () => {
     }, [player]);
 
 
+
+    const [isKeyboardShow, setIsKeyboardShow] = useState(true)
+
     const [savePost, setSavePost] = useState<any>([])
     const [pallet, setPallet] = useState(false)
     const [color, setColor] = useState('');
@@ -52,7 +55,8 @@ const CreatePost = () => {
         img: img,
         bg: color,
         text: text, 
-        vid: vid, 
+        vid: vid,
+        audio: voice, 
         title: title,
         tagged: [],
         comments: [{ id: '1', user: '@josh', comment: 'Nice post', img: require('../../../assets/images/d1.jpeg')},],
@@ -147,25 +151,32 @@ const CreatePost = () => {
             </TouchableOpacity>
         </View>
 
-        <View style={[styles.mainView, { overflow: 'hidden', borderRadius:10,margin: 10, width:'95%'}]}>
+        <View style={[styles.mainView, { overflow: 'hidden', borderRadius:10, width: dimensions.width,}]}>
             {vid ?
                 <>
                     <TextInput autoFocus={true} value={title} onChangeText={(txt) => setTitle(txt)} placeholder='Title' placeholderTextColor={'white'} cursorColor={'white'} style={{position: 'absolute',zIndex:9, top: 60, borderColor:'dimgray', borderWidth: 1, height: 50,borderRadius: 10,color:'white', fontSize: 16,fontWeight:'500', padding:15, width: '100%'}} />
-                    <VideoPlayer isConnect={false} contentFit={'contain'} full={false} native={false} pause={false} video={vid} />
+                    <VideoPlayer isConnect={false} contentFit={'cover'} full={false} native={false} pause={false} video={vid} />
                 </>                 
                 :
-                <ImageBackground style={styles.mainView} resizeMode='contain'   source={{uri: img}}>
-                {<TextInput autoFocus={true}  value={img ? title : text} onChangeText={(txt) => img ? setTitle(txt) : setText(txt)}  multiline={true} maxLength={250} cursorColor={'white'} placeholder={img ? 'Add Title' : "What's on your mind?"} placeholderTextColor={'white'} style={styles.textInput} /> }
+                <ImageBackground style={styles.mainView} resizeMode='cover'   source={{uri: img}}>
+                    {voice ? 
+                        <View style={styles.micView}>
+                            <View style={{width: 120, height: 120, borderRadius: 60, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center'}}>
+                                <Ionicons name='mic-sharp' size={100} color={'rgb(0, 177, 86)'} style={{alignSelf: 'center'}} />
+                            </View>
+                        </View>                        
+                        : 
+                        <TextInput autoFocus={true} inputMode='text'  value={img ? title : text} onChangeText={(txt) => img ? setTitle(txt) : setText(txt)}  multiline={true} maxLength={200} cursorColor={'white'} placeholder={img ? 'Add Title' : "What's on your mind?"} placeholderTextColor={'white'} style={styles.textInput} /> }
                 </ImageBackground>
             }
         </View>
         
-        <View style={{height: 100, position: 'absolute', bottom: 0,justifyContent: 'flex-end', zIndex: 9, width: '100%'}}>
+        <View style={{height: 100, width: '100%', justifyContent: 'flex-end',}}>
             <LinearGradient
             colors={['transparent', '#000', ]}
             style={[styles.gradient]}
             >
-                <View style={{height: 80,  width: '100%', flexDirection:'row', justifyContent: 'space-between', alignItems: 'center', padding: 10}}>
+                <View style={{height: 80,  width: '100%', flexDirection:'row', justifyContent: 'space-between', alignItems: 'center', padding: 10,}}>
                     <View style={{width: '60%', flexDirection:'row', justifyContent: 'space-between', alignItems: 'center',}}>
                         <TouchableOpacity onPress={() => pickMediaFile('camera')} style={styles.cameraView}>
                             <Ionicons name='camera-outline' size={28} color={'white'} />
@@ -189,17 +200,17 @@ const CreatePost = () => {
                     }
                 </View>
 
-                <View style={{position:'absolute', bottom: 65,}}>
+                <View style={{position:'absolute', bottom: 65, zIndex: 9}}>
                     {pallet && <FlatList 
-                    data={colors}
-                    keyExtractor={(item) => item.id}
-                    style={{padding: 15}}
-                    showsHorizontalScrollIndicator={false}
-                    horizontal={true}
-                    renderItem={({item, index}) => (
-                        <TouchableOpacity  onPress={() => {setColor(item.color)}} style={{ backgroundColor: item.color, height: 35, width: 35,marginRight: 10, borderRadius:50, elevation:2 , borderWidth: color === item.color ? 2 : 0, borderColor: color === item.color ? 'white' : ''}} />     
-                    )}
-                    />
+                        data={colors}
+                        keyExtractor={(item) => item.id}
+                        style={{padding: 15}}
+                        showsHorizontalScrollIndicator={false}
+                        horizontal={true}
+                        renderItem={({item, index}) => (
+                            <TouchableOpacity  onPress={() => {setColor(item.color)}} style={{ backgroundColor: item.color, height: 35, width: 35,marginRight: 10, borderRadius:50, elevation:2 , borderWidth: color === item.color ? 2 : 0, borderColor: color === item.color ? 'white' : ''}} />     
+                        )}
+                        />
                     }
                 </View>
                 

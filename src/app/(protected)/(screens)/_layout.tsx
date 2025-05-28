@@ -14,13 +14,14 @@ const StackLayout = () => {
         screenOptions={{
           headerTitleStyle:{fontSize: 23,color: 'white',}
           ,headerTintColor: 'white', headerStyle: {backgroundColor: 'rgb(2, 9, 8)',},
-          contentStyle:{backgroundColor: 'rgb(2, 9, 8)', }}}
+          contentStyle:{backgroundColor: 'rgb(2, 9, 8)', }, animation:'none'}}
+        
         >
             <Stack.Screen name='createPost' options={{headerShown: false}} />
             <Stack.Screen name='attendance' options={{title: 'Attendance', headerRight: () => (<Ionicons name='book-outline' size={25} style={{ height: 50,paddingHorizontal: 5,paddingVertical: 10, width: 40}}  color={'white'}/>)}} />
             <Stack.Screen name='cell'  options={{title: 'Cell', headerRight: () => (<Ionicons name='build-outline' size={25} style={{ height: 50,paddingHorizontal: 5,paddingVertical: 10, width: 40}}  color={'white'}/>)}}/>
             <Stack.Screen name='register'  options={{title: 'Register', headerRight: () => (<Feather name='user-plus' size={25} style={{ height: 50,paddingHorizontal: 5,paddingVertical: 10, width: 40}}  color={'white'}/>)}}   />
-            <Stack.Screen name='update'   options={{title: 'Update', headerRight: () => (<Ionicons name='pencil-outline' size={25} style={{ height: 50,paddingHorizontal: 5,paddingVertical: 10, width: 40}}  color={'white'}/>)}} />
+            <Stack.Screen name='update'   options={{title: 'Update', headerRight: () => (<Ionicons name='pencil-outline' size={25} style={{ height: 50,paddingHorizontal: 5,paddingVertical: 10, width: 40}}  color={'white'}/>)}}/>
             <Stack.Screen name='event'  options={{title: 'Event', headerRight: () => (<Ionicons name='calendar-number-outline' size={25} style={{ height: 50,paddingHorizontal: 5,paddingVertical: 10, width: 40}}  color={'white'}/>)}}/>
         </Stack>
       </SafeAreaView>
