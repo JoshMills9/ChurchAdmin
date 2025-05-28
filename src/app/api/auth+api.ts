@@ -4,7 +4,7 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import mongoose from 'mongoose';
 import User from '../../backend/mongoose'; // Your Mongoose model
 
-const MONGO_URI = 'mongodb+srv://churchAdmin:2renfiLCIJ1Nnqbr@cluster0.epkvnfo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const MONGO_URI = process.MONGODB_KEY;
 
 if (!mongoose.connections[0].readyState) {
   mongoose.connect(MONGO_URI)

@@ -19,7 +19,8 @@
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.joshmills.ChurchAdmin"
     },
     "web": {
       "bundler": "metro",
@@ -28,10 +29,10 @@
     },
     "plugins": [
       [
-      "expo-router",
-      {
-        "origin":  "https://churchadmin.expo.app"
-      }
+        "expo-router",
+        {
+          "origin": "https://churchadmin.expo.app"
+        }
       ],
       [
         "expo-splash-screen",
@@ -43,24 +44,24 @@
         }
       ],
       [
-      "expo-video",
-      {
-        "supportsBackgroundPlayback": true,
-        "supportsPictureInPicture": true
-      }
-    ],
-    [
-      "expo-image-picker",
-      {
-        "photosPermission": "Allow ChurchAdmin to access your photos"
-      }
-    ],
-    [
-      "expo-audio",
-      {
-        "microphonePermission": "Allow ChurchAdmin to access your microphone."
-      }
-    ]
+        "expo-video",
+        {
+          "supportsBackgroundPlayback": true,
+          "supportsPictureInPicture": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow ChurchAdmin to access your photos"
+        }
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Allow ChurchAdmin to access your microphone."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
