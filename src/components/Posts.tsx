@@ -31,10 +31,10 @@ const Posts = ({post}: any) => {
 
 //"height": 783.2727272727273, "scale": 2.75, "width": 392.72727272727275}
 
-  
+
 
   return (
-    <View style={{height: dimensions.height >= 700 ? dimensions.height * 0.70 : dimensions.height * 0.69,paddingTop: 10}}>
+    <View style={{height: dimensions.height >= 700 ? dimensions.height * 0.70 : dimensions.height * 0.69,paddingTop: showPost ? 0 : 10}}>
       {(post && post?.length !== 0) ? 
             <FlatList
             data={post?.sort((a:any, b:any) => b.id - a.id)}
@@ -53,8 +53,10 @@ const Posts = ({post}: any) => {
                                     <Ionicons name='ellipse-sharp' size={5} color={'red'} />
                                     <Text style={{fontSize: 12, color: 'white', fontWeight: '500'}}>Testified</Text>
                               </View>
-                              <Pressable onPress={() => {setShowPost(true); setSelected(item);}} style={{height:'100%', position:'absolute',width:'100%', zIndex: 9,}}/>
-                                <VideoPlayer isConnect={false} contentFit={'fill'} full={false} native={false} pause={showPost} video={item} />
+                              <Pressable onPress={() => {setShowPost(true); setSelected(item);}} style={{height:'100%', position:'absolute',width:'100%', justifyContent:'center', alignItems: 'center', zIndex: 9,}}>
+                                <Ionicons name='play-circle-sharp' size={80} color={'white'} />
+                              </Pressable>  
+                              <VideoPlayer isConnect={false} contentFit={'fill'} full={false} native={false} pause={showPost} video={item} />
                             
                               <LinearGradient
                                 colors={['transparent', '#000']}
@@ -80,9 +82,11 @@ const Posts = ({post}: any) => {
                             </View> 
                           ))
                           :
-                        <View style={{ flex: 1}}>
-                          <Pressable onPress={() => {setShowPost(true); setSelected(item);}} style={{height:'100%', position:'absolute',width:'100%', zIndex: 9,}}/>
-                            <VideoPlayer isConnect={false} contentFit={'cover'} full={false} native={false} pause={showPost} video={item} />
+                        <View style={{ flex: 1,}}>
+                          <Pressable onPress={() => {setShowPost(true); setSelected(item);}} style={{height:'100%', position:'absolute',width:'100%', justifyContent:'center', alignItems: 'center', zIndex: 9,}}>
+                            <Ionicons name='play-circle-sharp' size={80} color={'white'} />
+                          </Pressable>
+                            <VideoPlayer isConnect={false} contentFit={'cover'} full={false} native={false} pause={!showPost} video={item} />
                         
                           <LinearGradient
                             colors={['transparent', '#000']}

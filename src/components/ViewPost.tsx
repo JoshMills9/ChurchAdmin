@@ -196,7 +196,7 @@ const ViewPost = ({onClose, item}: {onClose: any, item: any}) => {
                                         <View style={styles.commentView}>
                                             <View style={{width: 50, height: 50 , borderRadius: 50, justifyContent:'center', alignItems: 'center', elevation: 5, backgroundColor: 'rgba(24, 29, 28, 0.85)'}}>
                                                 {item.img ?
-                                                    <Image source={item.img} resizeMode='contain' style={{width: 50, height: 50 , borderRadius: 50}} />
+                                                    <Image source={item.img}  style={{width: 50, height: 50 , borderRadius: 50}} />
                                                     :
                                                     <Ionicons name='person-sharp' size={25} color={'gray'}  />
                                                 }   
@@ -234,16 +234,20 @@ const modalStyles = (dimensions: any) => StyleSheet.create({
     container: {
         backgroundColor: 'rgba(0, 0, 0, 0.90)',
         width: dimensions.width,
-        height: dimensions.height, 
+        height: '100%', 
+        justifyContent: 'space-between'
+        
     },
     topView: {
-        height: 70, 
+        height: 40,
         width: '100%',
         flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 15,
         paddingHorizontal: 15,
         justifyContent:'space-between',
+        position: 'absolute',
+        top: 0,
+        zIndex: 99
+
     },
     closeView: {
         width: '40%',
@@ -266,12 +270,12 @@ const modalStyles = (dimensions: any) => StyleSheet.create({
         fontWeight: '500'
     },
     bottomView: {
-        height: dimensions.height >= 700 ? 120 : 80,
+        height: dimensions.height >= 700 ? 60 : 50,
         width: dimensions.width,
         backgroundColor: '#000',
     },
     gradient: {
-        height: dimensions.height >= 700 ? 200 : 170,
+        height: dimensions.height >= 700 ? 220 : 200,
         width: dimensions.width,
         padding: 15,
       },

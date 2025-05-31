@@ -22,6 +22,7 @@ const AdminSignupScreen = () => {
   const user = {
     churchName,
     phoneNumber,
+    isSignup: true
   }
 
  
@@ -43,20 +44,21 @@ const signupWithPhoneNumber = async () => {
               body: JSON.stringify(user)
             })
             const data = await res.json()
-            if(!data.code){
-              Alert.alert('Error', 'You already have an account. Login');
-              setIsContinue(false)
-              return
-            }else{
-              router.push({
+            console.log(data)
+
+            if(!res.ok){
+              throw new Error(data?.message)
+            }
+
+            router.push({
                 pathname: '/(auth)/Verification',
                 params: data , 
               });
-            }
+            
           
-          } catch (error) {
-            console.error('Error sending verification code:', error);
-            Alert.alert('Error', 'You already have an account. Login');
+          } catch(error: any) {
+            console.error('Error sending verification code:', error.message);
+            Alert.alert('Signup Failed', error?.message.toString())
             setIsContinue(false)
           }
         }

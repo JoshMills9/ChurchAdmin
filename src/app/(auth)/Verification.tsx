@@ -73,7 +73,7 @@ const VerificationScreen = () => {
             console.error('Server error:', data);
             return null;
           }else{
-            router.navigate('/(protected)/(tabs)');
+            router.push('/(protected)/(tabs)');
             setIsVerify(false)
           }
     }catch(err){

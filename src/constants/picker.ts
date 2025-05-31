@@ -28,9 +28,7 @@ export const Picker = async(media: any) => {
           }
      }else if(media === 'video'){
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ['videos', 'livePhotos'],
-            allowsEditing: true,
-            aspect: [4, 4],
+            mediaTypes: ['videos'],
             quality: 1,
           });
       

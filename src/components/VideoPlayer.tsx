@@ -6,10 +6,11 @@ const VideoPlayer = ({video, pause, full, contentFit,isConnect, native}: {video:
    
     const dimensions = useWindowDimensions()
     const styles = videoStyles(dimensions)
-    
+  
+
     const videoSource: VideoSource = {
         //assetId: video?.vid,
-        uri: video?.vid || video,
+        uri: video.vid ? video.vid : video,
         metadata: {
           title: video.title,
           artist: '',
