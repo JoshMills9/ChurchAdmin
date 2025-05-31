@@ -84,7 +84,7 @@ const Feeds = () => {
         </View>
         <View style={styles.performanceView}>
           <View style={{height: dimensions.height >= 700 ? 30 : 20, justifyContent: 'flex-end',}}>
-            <Text style={styles.accessText}>General</Text>
+            <Text style={styles.accessText}></Text>
           </View>
         </View>
         <View style={styles.quickView}>

@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
-import { Alert, Text, TextInput, ToastAndroid, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { Alert, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 
 
 
 import BackgroundLayout from '@/src/components/backgroundLayout'
-import { VerificationCode } from '@/src/components/VerificationCode'
 import { COLORS } from '@/src/constants/colors'
 import signUpStyles from '@/src/styles/auth/signup'
+import Feather from '@expo/vector-icons/Feather'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import * as Linking from 'expo-linking'
 import { Link, router } from 'expo-router'
 
 const AdminSignupScreen = () => {
@@ -18,41 +17,47 @@ const AdminSignupScreen = () => {
 
   const [churchName, setChurchName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [closeAlert, setCloseAlert] = useState(false)
+  const [isContinue, setIsContinue] = useState(false)
 
   const user = {
     churchName,
     phoneNumber,
   }
 
-  const sendWhatsApp = (phoneNumber: string, message: string) => {
-  const url = `whatsapp://send?phone=${phoneNumber.replace('+', '')}&text=${encodeURIComponent(message)}`;
-  Linking.openURL(url).catch(() => {
-    ToastAndroid.show('WhatsApp not installed', ToastAndroid.SHORT);
-    const url = `https://wa.me/${phoneNumber.replace('+', '')}?text=${encodeURIComponent(message)}`;
-    Linking.openURL(url);
-  });
-};
+ 
 
-const signupWithPhoneNumber = async (value: any) => {
+const signupWithPhoneNumber = async () => {
+    setIsContinue(true)
+
     if(!churchName || !phoneNumber){
-      Alert.alert('Error', 'Please fill all fields');
+      Alert.alert('Signup Failed', 'Please fill all fields');
+      setIsContinue(false)
       return
     }else{
-          try {
-            const {code, number} = await VerificationCode(value);
-
-            // Send the code via WhatsApp
-            sendWhatsApp(number, `Your Church Admin verification code is ${code}`);
-        
-            // Navigate to verification screen with the code
-            router.push({
-              pathname: '/(auth)/Verification',
-              params: { code }, // Make sure `Verification` screen expects this param
-            });
+          try{
+            const res = await fetch('https://churchadmin-backend-api.onrender.com/admin/otp', {
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json',
+              },
+              body: JSON.stringify(user)
+            })
+            const data = await res.json()
+            if(!data.code){
+              Alert.alert('Error', 'You already have an account. Login');
+              setIsContinue(false)
+              return
+            }else{
+              router.push({
+                pathname: '/(auth)/Verification',
+                params: data , 
+              });
+            }
+          
           } catch (error) {
             console.error('Error sending verification code:', error);
-            Alert.alert('Error', 'Could not send verification code.');
+            Alert.alert('Error', 'You already have an account. Login');
+            setIsContinue(false)
           }
         }
   };
@@ -78,8 +83,12 @@ const signupWithPhoneNumber = async (value: any) => {
                 </View>
 
                 <View>
-                    <TouchableOpacity onPress={() => signupWithPhoneNumber(user)} style={styles.continueView}>
-                       <Text style={styles.continueTxt}>Continue</Text>
+                    <TouchableOpacity disabled={isContinue} onPress={signupWithPhoneNumber} style={styles.continueView}>
+                       {isContinue ? 
+                          <Feather name='loader' size={28} />
+                       :
+                          <Text style={styles.continueTxt}>Continue</Text>
+                       }
                     </TouchableOpacity>
                 </View>
 
@@ -94,9 +103,9 @@ const signupWithPhoneNumber = async (value: any) => {
             <View style={styles.mainAuthView}>
 
                 <View style={{flexDirection: 'row', width: '100%',  alignItems: 'center', justifyContent: 'center'}}>
-                    <Text style={[styles.text,{fontSize: 15, width: 70, fontWeight: '300', color: 'rgb(37, 60, 54)'}]}>---------------</Text>
-                    <Text style={[styles.text,{fontSize: 15, width: 40}]}>Or</Text>
-                    <Text style={[styles.text,{fontSize: 15, width: 70, fontWeight: '300', color: 'rgb(37, 60, 54)'}]}>---------------</Text>
+                    <Text style={[styles.text,{fontSize: 15, width: '45%', fontWeight: '300', color: 'rgba(37, 60, 54, 0.7)'}]}>-----------</Text>
+                    <Text style={[styles.text,{fontSize: 15, width: '5%'}]}>Or</Text>
+                    <Text style={[styles.text,{fontSize: 15, width: '45%', fontWeight: '300', color: 'rgba(37, 60, 54, 0.7)'}]}>-----------</Text>
                 </View>
 
                 <View style={styles.authView}>
@@ -112,11 +121,11 @@ const signupWithPhoneNumber = async (value: any) => {
 
                 <View style={styles.termsView}>
                     <TouchableOpacity>
-                        <Text style={[styles.text, {fontSize: 12, textDecorationLine: 'underline', width: 100 }]}>Terms of Service</Text>
+                        <Text style={[styles.text, {fontSize: 12, textDecorationLine: 'underline', width: '100%', }]}>Terms of Service</Text>
                     </TouchableOpacity>                
-                        <Text style={[styles.text, {fontSize: 12, width: 6}]}> | </Text>
+                        <Text style={[styles.text, {fontSize: 12, width: '5%', }]}> | </Text>
                     <TouchableOpacity>
-                        <Text style={[styles.text, {fontSize: 12, textDecorationLine: 'underline', width: 80 }]}>Privacy Policy</Text>
+                        <Text style={[styles.text, {fontSize: 12, textDecorationLine: 'underline', width: '100%' }]}>Privacy Policy</Text>
                     </TouchableOpacity>
                 </View>
 

@@ -104,6 +104,7 @@ const signUpStyles = (dimensions: any) => StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+        width: dimensions.width
     }
 });
 

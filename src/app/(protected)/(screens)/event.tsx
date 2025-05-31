@@ -53,7 +53,7 @@ const EventScreen = () => {
 
       try{
         await AsyncStorage.setItem('events', JSON.stringify(newEvent))
-        router.navigate('/(protected)/(tabs)')
+        router.push('/(protected)/(tabs)')
       }catch(err){
         console.log(err)
       }
@@ -82,13 +82,13 @@ const EventScreen = () => {
         <View style={styles.inputView}>
           <Text style={{color: 'white', fontSize: 16, fontWeight: '500', marginBottom: 10}}>Date</Text>
           <View style={{flex: 1,justifyContent: 'space-between', flexDirection: 'row',}}>
-            <Pressable onPress={() => {setDatePicker(true); setStartDate('startDate')}} style={{flexDirection: 'row' , gap: 10, alignItems: 'center', borderWidth:1, borderColor: 'dimgray', borderStyle: 'dashed', height: 50, width: '45%', borderRadius: 10, paddingHorizontal: 15}}>
+            <Pressable onPress={() => {setDatePicker(true); setStartDate('startDate')}} style={{flexDirection: 'row' , gap: 10, alignItems: 'center', borderWidth:1, borderColor: 'dimgray', height: 50, width: '45%', borderRadius: 10, paddingHorizontal: 15}}>
                 <>
                   <Feather name='calendar' size={24} color={COLORS.SECONDARYTEXT} />
                   <Text style={styles.text} adjustsFontSizeToFit={true} numberOfLines={1}>{startDate ? startDate :  'Start date'}</Text>
                 </>
             </Pressable>
-            <Pressable onPress={() => {setDatePicker(true); setStartDate('endDate')}}  style={{flexDirection: 'row' , gap: 10, alignItems: 'center', borderWidth:1, borderColor: 'dimgray', borderStyle: 'dashed', height: 50, width: '45%', borderRadius: 10, paddingHorizontal: 15}}>
+            <Pressable onPress={() => {setDatePicker(true); setStartDate('endDate')}}  style={{flexDirection: 'row' , gap: 10, alignItems: 'center', borderWidth:1, borderColor: 'dimgray', height: 50, width: '45%', borderRadius: 10, paddingHorizontal: 15}}>
                 <>
                   <Feather name='calendar' size={24} color={COLORS.SECONDARYTEXT} />
                   <Text style={styles.text}  adjustsFontSizeToFit={true} numberOfLines={1}>{endDate ? endDate : 'End date'}</Text>
@@ -109,9 +109,9 @@ const EventScreen = () => {
             </View>
           </View>
         </View>
-        <View style={[styles.inputView, {height: 350,}]}>
+        <View style={[styles.inputView, {minHeight: 250,}]}>
           <Text style={{color: 'white', fontSize: 16, fontWeight: '500', marginBottom: 15}}>About</Text>
-          <TextInput placeholderTextColor={COLORS.SECONDARYTEXT} multiline={true} maxLength={400} placeholder='What are the details' value={about} onChangeText={(txt) => setAbout(txt)} style={[styles.input, {height: 350,textAlignVertical: 'top',borderRadius: 10, padding: 15, borderWidth: 1}]} />
+          <TextInput placeholderTextColor={COLORS.SECONDARYTEXT} multiline={true} maxLength={400} placeholder='What are the details' value={about} onChangeText={(txt) => setAbout(txt)} style={[styles.input, {minHeight: 250,textAlignVertical: 'top',borderRadius: 10, padding: 15, borderWidth: 1}]} />
         </View>
       </ScrollView>
 

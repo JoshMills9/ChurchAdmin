@@ -15,8 +15,10 @@ const HomeHeader = ({screen, isHome, isSettings, picker}: {screen: any, isHome: 
     const [isFeed, setFeed] = useState(true);
     const [isPost, setPost] = useState(false);
     const [isConnect, setConnect] = useState(false)
+    const [church, setChurchName] = useState('')
     const [Img, setImg] = useState<string>('')
-    const [greeting, setGreeting] = useState(new Date().getHours());
+    const [greeting, setGreeting] = useState<any>(new Date().getHours());
+
 
     if(greeting < 12){
         setGreeting("Good morning,");
@@ -38,8 +40,19 @@ const HomeHeader = ({screen, isHome, isSettings, picker}: {screen: any, isHome: 
               } catch (error) {
                 console.error('Error checking post', error);
             }
+            try{
+                const user = await AsyncStorage.getItem('user');
+                if(user){
+                    const u = JSON.parse(user);
+                    setChurchName(u.churchName)
+                }
+            }catch(err){
+                console.error('Error checking post', err);
+            }
         }
         getProfile()
+
+
     
      
 
@@ -64,7 +77,7 @@ const HomeHeader = ({screen, isHome, isSettings, picker}: {screen: any, isHome: 
                 </TouchableOpacity>
                 <View style={styles.greetingView}>
                     <Text style={styles.text}>{greeting}</Text>
-                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.churchText}>Perez Chapel Int.</Text>
+                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.churchText}>{church}</Text>
                 </View>
             </View>
             <View style={styles.notificationView}>

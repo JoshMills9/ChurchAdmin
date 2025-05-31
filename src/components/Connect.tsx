@@ -15,8 +15,9 @@ const Connect = ({connected} : any) => {
   const [isVisible, setIsvisble] = useState(false)
   const [isConnected, setIsConnected] = useState(false);
   const [Item, setItem] = useState({})
-
-  const data = [
+  const [data, setData] = useState<any>([])
+  /*const data = [
+    /*
     { id: '1', user: '@josh', title: 'Gloryland AG', img: require('../assets/images/d6.jpeg')},
     { id: '2', user: '@nemesis', title: 'Perez Chapel Int',  img: require('../assets/images/d1.jpeg')},
     { id: '3', user: '@brainiac', title: 'The Mega Church'},
@@ -27,7 +28,18 @@ const Connect = ({connected} : any) => {
     { id: '8', user: '@churchadmin', title: ' Lorem ipsum dolor siMaecenas'},
     { id: '9', user: '@roselyn', title: 'Pentecost Church',  img: require('../assets/images/d8.jpeg')}
   
-    ]
+    ]*/
+
+
+    const getChurches = async() => {
+      try{
+        const res = await fetch('https://churchadmin-backend-api.onrender.com/admin/users');
+        const data = await res.json()
+       setData(data)
+      }catch(err){
+        console.log(err)
+      }
+    }
 
  
 
@@ -39,15 +51,15 @@ const Connect = ({connected} : any) => {
       <View style={styles.bottomView}>
         {data && data.length !== 0 ? 
             <FlatList
-              data={connect || connected ? data?.filter(church => 
-                church.title && church.user && (church.title.toLowerCase().includes(search.toLowerCase()) || 
-                church.user.toLowerCase().includes(search.toLowerCase()))) : []}
+              data={data?.filter((church: any) => 
+                church.church && church.user && (church.church.toLowerCase().includes(search.toLowerCase()) || 
+                church.user.toLowerCase().includes(search.toLowerCase())))}
               style={{height:'100%',}}
-              keyExtractor={(item) => item.id} 
+              keyExtractor={(item) => item._id} 
               ListEmptyComponent={() => (
-                  (connect || connected) &&  
+                  (data.length === 0) &&  
                     <View  style={{height: 500 ,paddingTop:40, alignItems: 'center'}}>
-                      <Text style={{color: COLORS.SECONDARYTEXT, fontSize: 18, fontWeight: '500', textDecorationLine: 'underline'}}>Not found</Text>
+                      <Text style={{color: COLORS.SECONDARYTEXT, fontSize: 18, fontWeight: '500', textDecorationLine: 'underline'}}>No church found</Text>
                     </View> 
                   )}
               renderItem={({item, index}) => (
@@ -64,11 +76,11 @@ const Connect = ({connected} : any) => {
                         }
                       </View>
                       <View style={{gap: 3, width: 190}}>
-                        <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.user}>{item.title}</Text>
+                        <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.user}>{item.church}</Text>
                         <Text style={styles.comment}>{item.user}</Text>
                       </View>
                     </View>
-                    <TouchableOpacity onPress={() => setIsConnected(!isConnected)} style={[styles.connect, {backgroundColor: isConnected ? 'rgba(38, 43, 42, 0.8)' : '' }]}>
+                    <TouchableOpacity onPress={() => {setIsConnected(!isConnected)}} style={[styles.connect, {backgroundColor: isConnected ? 'rgba(38, 43, 42, 0.8)' : '' }]}>
                       <Text adjustsFontSizeToFit={true} numberOfLines={1} style={[styles.connectText, {color: isConnected ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT}]}>{isConnected ? 'Following' : 'Follow'}</Text>
                     </TouchableOpacity>
                   </>
@@ -78,7 +90,7 @@ const Connect = ({connected} : any) => {
               :
 
               <View style={{height: '100%',}}>
-                  <CommunityConnect onPress={(value: any) => setConnect(value)} />
+                  <CommunityConnect onPress={(value: any) => {setConnect(value);getChurches()}} />
               </View>
           }
       </View>

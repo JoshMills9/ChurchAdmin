@@ -50,7 +50,7 @@ const ImagePickerComponent = ({Close, profile, isVideo, imageOut, videoOut, remo
                 <Ionicons name='close-sharp' size={24} color={COLORS.SECONDARYTEXT}  />
               </TouchableOpacity>
               <Text style={styles.text}>{profile}</Text>
-              <TouchableOpacity onPress={() => remove('')}>
+              <TouchableOpacity onPress={() => {remove(''); Close(false)}}>
                 <Ionicons name='trash-outline' size={24} color={COLORS.SECONDARYTEXT}  />
               </TouchableOpacity>
             </View>

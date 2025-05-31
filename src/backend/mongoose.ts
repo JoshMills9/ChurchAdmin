@@ -1,9 +1,0 @@
-import mongoose from 'mongoose';
-
-
-const userSchema = new mongoose.Schema({
-    church: {type: String, required: true},
-    phone: {type: String, required: true}
-});
-
-export default mongoose.model('User', userSchema);

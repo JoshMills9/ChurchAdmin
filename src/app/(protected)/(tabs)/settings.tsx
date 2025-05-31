@@ -1,7 +1,8 @@
 import Gradientbackground from '@/src/components/Gradientbackground';
 import HomeHeader from '@/src/components/homeHeader';
 import ImagePickerComponent from '@/src/components/ImagePicker';
-import React, { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 
 const SettingsScreen = () => {
@@ -11,6 +12,13 @@ const SettingsScreen = () => {
   const dimensions = useWindowDimensions();
   const [picker, setPicker] = useState(false)
   const [Img, setImg] = useState('')
+
+  useEffect(() => {
+    const savePhoto = async () => {
+      await AsyncStorage.setItem('Profile', JSON.stringify(Img))
+    }
+    savePhoto()
+  },[Img])
 
 
   return (
@@ -25,7 +33,7 @@ const SettingsScreen = () => {
 
 
       {
-        picker && <ImagePickerComponent profile={'Profile photo'} isVideo={false} Close={(value: any) => setPicker(value)}  />
+        picker && <ImagePickerComponent videoOut={{}} remove={() => setImg('')} imageOut={(value: any) => setImg(value)} profile={'Profile photo'} isVideo={false} Close={(value: any) => setPicker(value)}  />
       }
     </Gradientbackground>
   )

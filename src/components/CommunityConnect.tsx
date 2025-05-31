@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React from "react";
+import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import { COLORS } from "../constants/colors";
 
@@ -7,6 +7,7 @@ const CommunityConnect = ({onPress}: {onPress: any}) => {
   const img = require("../assets/images/d6.jpeg");
   const img1 = require("../assets/images/d3.jpeg");
   const img2 = require("../assets/images/d2.jpeg");
+  const [isConnect, setIsConnect] = useState(false)
 
   const handleConnect = async () => {
     try {
@@ -81,8 +82,8 @@ const CommunityConnect = ({onPress}: {onPress: any}) => {
             Let others knnow that God is still working through your ministry.
           </Text>
         </View>
-        <TouchableOpacity onPress={() => {onPress(true); handleConnect()}} style={styles.connectView}>
-          <Text style={styles.connect}>Connect</Text>
+        <TouchableOpacity onPress={() => {onPress(true); handleConnect(); setIsConnect(true)}} style={styles.connectView}>
+          <Text style={styles.connect}>{isConnect ? 'Connecting...' : 'Connect'}</Text>
         </TouchableOpacity>
       </View>
     </View>

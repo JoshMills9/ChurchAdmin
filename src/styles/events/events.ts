@@ -31,10 +31,9 @@ export const eventStyles = (dimensions: any) => StyleSheet.create({
     input: {
         color: 'white',
         fontSize: 16,
-        height: 50,
+        height: 45,
         width: '100%',
         borderBottomWidth: 1,
-        borderStyle: 'dashed',
         borderColor: 'dimgray',
         fontWeight: '500'
     },

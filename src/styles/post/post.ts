@@ -8,7 +8,8 @@ export const postStyles = (dimensions : any) => StyleSheet.create({
         height: dimensions.height,
         backgroundColor: 'rgb(2, 9, 8)',
         width: dimensions.width,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        paddingBottom: 15
     },
     gradient: {
         height: '100%',

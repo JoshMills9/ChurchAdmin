@@ -17,10 +17,12 @@ const verificationStyles = (dimensions: any) => StyleSheet.create({
     bottomView: {
         height: dimensions.height >= 700 ?  dimensions.height * 0.55 :  dimensions.height * 0.55,
         gap: 5,
-        paddingVertical: 10
+        paddingVertical: 10,
+
     },
     pinView: {
         height: dimensions.height * 0.15,
+        gap: 10
     },
     inputView: {
         backgroundColor: 'rgba(30, 52, 46, 0.8)',

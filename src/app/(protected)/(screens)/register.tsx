@@ -19,21 +19,21 @@ const Register = () => {
   const [showPicker, setShowPicker] = useState<boolean>(false)
 
 
-  const [photo, setPhoto] = useState<string | null>(memberData?.img)
-  const [FirstName, setFirstName] = useState<string | string[]>(memberData.FirstName)
-  const [LastName, setLastName] = useState<string | string[]>(memberData.LastName)
-  const [DateOfBirth, setDateOfBirth] = useState<string | string[]>(memberData.DateOfBirth)
-  const [RegDate, setRegDate] = useState<string | string[]>(memberData.RegDate)
-  const [Contact1, setContact1] = useState<string | string[]>(memberData.Contact1)
-  const [Contact2, setContact2] = useState<string | string[]>(memberData.Contact2)
-  const [Email, setEmail] = useState<string | string[]>(memberData.Email)
-  const [Residential, setResidential] = useState<string | string[]>(memberData.Residential)
-  const [MaritalStatus, setMaritalStatus] = useState<string | string[]>(memberData.MaritalStatus)
-  const [NumberOfChildren, setNumberOfChildren] = useState<string | string[]>(memberData.NumberOfChildren)
-  const [Department, setDepartment] = useState<string | string[]>(memberData.Department)
-  const [Occupation, setOccupation] = useState<string | string[]>(memberData.Occupation)
-  const [isVisiting, setIsVisiting] = useState<string | string[]>(memberData.isVisiting)
-  const [isBaptised, setIsBaptised] = useState<string | string[]>(memberData.isBaptised)
+  const [photo, setPhoto] = useState<any>(memberData?.img)
+  const [FirstName, setFirstName] = useState<any>(memberData.FirstName)
+  const [LastName, setLastName] = useState<any>(memberData.LastName)
+  const [DateOfBirth, setDateOfBirth] = useState<any>(memberData.DateOfBirth)
+  const [RegDate, setRegDate] = useState<any>(memberData.RegDate)
+  const [Contact1, setContact1] = useState<any>(memberData.Contact1)
+  const [Contact2, setContact2] = useState<any>(memberData.Contact2)
+  const [Email, setEmail] = useState<any>(memberData.Email)
+  const [Residential, setResidential] = useState<any>(memberData.Residential)
+  const [MaritalStatus, setMaritalStatus] = useState<any>(memberData.MaritalStatus)
+  const [NumberOfChildren, setNumberOfChildren] = useState<any>(memberData.NumberOfChildren)
+  const [Department, setDepartment] = useState<any>(memberData.Department)
+  const [Occupation, setOccupation] = useState<any>(memberData.Occupation)
+  const [isVisiting, setIsVisiting] = useState<any>(memberData.isVisiting)
+  const [isBaptised, setIsBaptised] = useState<any>(memberData.isBaptised)
   const [isRegister, setIsRegister] = useState<boolean>(false)
 
 
@@ -73,14 +73,14 @@ useEffect(() => {
           <View style={{width: '48%',gap: 8}}>
             <Text style={styles.text}>First name</Text>
             <>
-              <Feather name='user' color={FirstName ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={20} style={{position: 'absolute' , top: 42,left: 8}}/>
+              <Feather name='user' color={FirstName ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={20} style={{position: 'absolute' , top: 45,left: 8}}/>
               <TextInput placeholder='Enter name' value={FirstName} onChangeText={(txt) => setFirstName(txt)} placeholderTextColor={COLORS.SECONDARYTEXT} style={{ width: '100%',borderColor: 'dimgray', borderRadius: 10, borderWidth: 1, paddingVertical: 8 , paddingLeft: 35, paddingRight: 5 , height: 45, color: 'white', fontSize: 16}}/>
             </>
           </View>
           <View style={{width: '48%',gap: 8}}>
             <Text style={styles.text}>Last name</Text>
             <>
-              <Feather name='user' color={LastName ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={20} style={{position: 'absolute' , top: 42,left: 8}}/>
+              <Feather name='user' color={LastName ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={20} style={{position: 'absolute' , top: 45,left: 8}}/>
               <TextInput placeholder='Last name' value={LastName} onChangeText={(txt) => setLastName(txt)} placeholderTextColor={COLORS.SECONDARYTEXT} style={{ width: '100%',borderColor: 'dimgray', borderRadius: 10, borderWidth: 1, paddingVertical: 8 , paddingLeft: 35, paddingRight: 5 , height: 45, color: 'white', fontSize: 16}}/>
             </>
           </View>
@@ -90,14 +90,14 @@ useEffect(() => {
           <View style={{width: '48%',gap: 8}}>
             <Text style={styles.text}>Date of Birth</Text>
             <>
-              <Feather name='calendar' color={DateOfBirth ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={20} style={{position: 'absolute' , top: 42,left: 8}}/>
+              <Feather name='calendar' color={DateOfBirth ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={20} style={{position: 'absolute' , top: 45,left: 8}}/>
               <TextInput placeholder='Date of birth' value={DateOfBirth} onChangeText={(txt) => setDateOfBirth(txt)} placeholderTextColor={COLORS.SECONDARYTEXT} style={{ width: '100%',borderColor: 'dimgray', borderRadius: 10, borderWidth: 1, paddingVertical: 8 , paddingLeft: 35, paddingRight: 5 , height: 45, color: 'white', fontSize: 16}}/>
             </>
           </View>
           <View style={{width: '48%',gap: 8}}>
             <Text style={styles.text}>Registration Date</Text>
             <>
-              <Feather name='calendar' color={RegDate ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={20} style={{position: 'absolute' , top: 42,left: 8}}/>
+              <Feather name='calendar' color={RegDate ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={20} style={{position: 'absolute' , top: 45,left: 8}}/>
               <TextInput placeholder='Registration Date' value={RegDate} onChangeText={(txt) => setRegDate(txt)} placeholderTextColor={COLORS.SECONDARYTEXT} style={{ width: '100%',borderColor: 'dimgray', borderRadius: 10, borderWidth: 1, paddingVertical: 8 , paddingLeft: 35, paddingRight: 5 , height: 45, color: 'white', fontSize: 16}}/>
             </>
           </View>
@@ -107,14 +107,14 @@ useEffect(() => {
           <View style={{width: '48%',gap: 8}}>
             <Text style={styles.text}>Phone Number</Text>
             <>
-              <Feather name='phone' color={Contact1 ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={20} style={{position: 'absolute' , top: 42,left: 8}}/>
+              <Feather name='phone' color={Contact1 ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={20} style={{position: 'absolute' , top: 45,left: 8}}/>
               <TextInput keyboardType='number-pad' value={Contact1} onChangeText={(txt) => setContact1(txt)} placeholder='Contact 1' placeholderTextColor={COLORS.SECONDARYTEXT} style={{ width: '100%',borderColor: 'dimgray', borderRadius: 10, borderWidth: 1, paddingVertical: 8 , paddingLeft: 35, paddingRight: 5 , height: 45, color: 'white', fontSize: 16}}/>
             </>
           </View>
           <View style={{width: '48%',gap: 8}}>
             <Text style={styles.text}></Text>
             <>
-              <Feather name='phone' color={Contact2 ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={20} style={{position: 'absolute' , top: 42,left: 8}}/>
+              <Feather name='phone' color={Contact2 ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={20} style={{position: 'absolute' , top: 45,left: 8}}/>
               <TextInput keyboardType='number-pad' value={Contact2} onChangeText={(txt) => setContact2(txt)} placeholder='Contact 2' placeholderTextColor={COLORS.SECONDARYTEXT} style={{ width: '100%',borderColor: 'dimgray', borderRadius: 10, borderWidth: 1, paddingVertical: 8 , paddingLeft: 35, paddingRight: 5 , height: 45, color: 'white', fontSize: 16}}/>
             </>
           </View>
@@ -124,7 +124,7 @@ useEffect(() => {
           <View style={{width: '100%',gap: 8}}>
             <Text style={styles.text}>Email</Text>
             <>
-              <Feather name='mail' color={Email ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={20} style={{position: 'absolute' , top: 42,left: 8}}/>
+              <Feather name='mail' color={Email ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={20} style={{position: 'absolute' , top: 45,left: 8}}/>
               <TextInput keyboardType='email-address' value={Email} onChangeText={(txt) => setEmail(txt)} placeholder='Email address' placeholderTextColor={COLORS.SECONDARYTEXT} style={{ width: '100%',borderColor: 'dimgray', borderRadius: 10, borderWidth: 1, paddingVertical: 8 , paddingLeft: 35, paddingRight: 5 , height: 45, color: 'white', fontSize: 16}}/>
             </>
           </View>
@@ -134,7 +134,7 @@ useEffect(() => {
           <View style={{width: '100%',gap: 8}}>
             <Text style={styles.text}>Residential</Text>
             <>
-              <Ionicons name='location-outline' color={Residential ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={22} style={{position: 'absolute' , top: 40,left: 8}}/>
+              <Ionicons name='location-outline' color={Residential ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={22} style={{position: 'absolute' , top: 42,left: 8}}/>
               <TextInput  placeholder='Residential address' value={Residential} onChangeText={(txt) => setResidential(txt)} placeholderTextColor={COLORS.SECONDARYTEXT} style={{ width: '100%',borderColor: 'dimgray', borderRadius: 10, borderWidth: 1, paddingVertical: 8 , paddingLeft: 35, paddingRight: 5 , height: 45, color: 'white', fontSize: 16}}/>
             </>
           </View>
@@ -180,7 +180,7 @@ useEffect(() => {
         <View style={[styles.nameView, {justifyContent: 'flex-start', gap: 15, alignItems: 'center'}]}>
           <Text style={styles.text}>No. of Children:</Text>
               <>
-                <Feather name='users' color={NumberOfChildren ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={18} style={{position: 'absolute' , top: 31, left: 135}}/>
+                <Feather name='users' color={NumberOfChildren ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={18} style={{position: 'absolute' , top: 31, left: 148}}/>
                 <TextInput maxLength={2} keyboardType='number-pad' value={NumberOfChildren} onChangeText={(txt) => setNumberOfChildren(txt)} placeholder='0' placeholderTextColor={COLORS.SECONDARYTEXT} style={{ width: '20%',borderColor: 'dimgray', borderRadius: 10, borderWidth: 1, paddingVertical: 8 , paddingLeft: 40, paddingRight: 5 , height: 40, color: 'white', fontSize: 16}}/>
               </>
         </View>
@@ -226,7 +226,7 @@ useEffect(() => {
           <View style={{width: '100%',gap: 8}}>
             <Text style={styles.text}>Occupation</Text>
             <>
-              <Ionicons name='briefcase-outline' color={Occupation ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={22} style={{position: 'absolute' , top: 40,left: 8}}/>
+              <Ionicons name='briefcase-outline' color={Occupation ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={22} style={{position: 'absolute' , top: 42,left: 8}}/>
               <TextInput  placeholder='Occupation' value={Occupation} onChangeText={(txt) => setOccupation(txt)} placeholderTextColor={COLORS.SECONDARYTEXT} style={{ width: '100%',borderColor: 'dimgray', borderRadius: 10, borderWidth: 1, paddingVertical: 8 , paddingLeft: 35, paddingRight: 5 , height: 45, color: 'white', fontSize: 16}}/>
             </>
           </View>
@@ -269,23 +269,23 @@ useEffect(() => {
           </View>
         </View>
 
-        <View style={[styles.nameView, {justifyContent:'center'}]}>
+        <View style={[styles.nameView, {justifyContent:'center',marginTop: 20 ,height: 100}]}>
           <Pressable onPress={() => setShowPicker(true)} style={styles.imgView}>
               {photo ?
-                        <Image source={{uri: photo}}   style={{width: dimensions.width >= 400 ? 90 : 90, height: dimensions.height >= 700 ? 90 : 90, borderRadius: 50}} />
+                        <Image source={{uri: photo}}   style={{width: dimensions.width >= 400 ? 110 : 110, height: dimensions.height >= 700 ? 110 : 110, borderRadius: 55}} />
                         :
-                        <View style={{ width: dimensions.width >= 400 ? 90 : 90, height: dimensions.height >= 700 ? 90 : 90, }}>
-                            <Ionicons name="person-circle-sharp" size={90}  color={COLORS.SECONDARYTEXT} />
+                        <View style={{ width: dimensions.width >= 400 ? 110 : 110, height: dimensions.height >= 700 ? 110 :110, }}>
+                            <Ionicons name="person-circle-sharp" size={110}  color={COLORS.SECONDARYTEXT} />
                         </View>
                     }
                   
-                    <View style={{position:'absolute',elevation:5, bottom:0, right: 5,borderWidth:0.5, borderColor:"dimgray", backgroundColor:"lightgray",width:23,justifyContent:"center",alignItems:"center", height:23, borderRadius:50}}>
+                    <View style={{position:'absolute',elevation:5, bottom:0, right: 10,borderWidth:0.5, borderColor:"dimgray", backgroundColor:"lightgray",width:23,justifyContent:"center",alignItems:"center", height:23, borderRadius:50}}>
                       <Ionicons name="camera-outline" size={16} />
                     </View>
             </Pressable>
         </View>
 
-        <View style={[styles.nameView,{justifyContent: 'center', alignItems:'center', marginBottom: 0}]}>
+        <View style={[styles.nameView,{justifyContent: 'center', alignItems:'flex-end',}]}>
            <TouchableOpacity onPress={() => setIsRegister(!isRegister)} style={{height: 45, width: '80%', backgroundColor: COLORS.CREATEBUTTON, borderRadius: 15, justifyContent:'center', alignItems:'center'}}>
            {isRegister ? 
               <Feather name='loader' size={25}/>
@@ -297,7 +297,7 @@ useEffect(() => {
         
       </ScrollView>
 
-      {showPicker && <ImagePickerComponent Close={(value: any) => setShowPicker(value)}  profile={'Choose photo'} isVideo={false} />}
+      {showPicker && <ImagePickerComponent Close={(value: any) => setShowPicker(value)}  videoOut={{}} remove={() => setPhoto('')} imageOut={(value:any) => setPhoto(value)}  profile={'Choose photo'} isVideo={false} />}
       
       {isRegister && <SuccessAlert success={true} showAlert={(value: any) => setIsRegister(value)} />}  
       

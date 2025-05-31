@@ -49,9 +49,9 @@ const AdminLoginScreen = () => {
         <View style={styles.mainAuthView}>
 
             <View style={{flexDirection: 'row', width: '100%',  alignItems: 'center', justifyContent: 'center'}}>
-                <Text style={[styles.text,{fontSize: 15, width: 70, fontWeight: '300', color: 'rgb(37, 60, 54)'}]}>---------------</Text>
-                <Text style={[styles.text,{fontSize: 15, width: 40}]}>Or</Text>
-                <Text style={[styles.text,{fontSize: 15, width: 70, fontWeight: '300', color: 'rgb(37, 60, 54)'}]}>---------------</Text>
+                <Text style={[styles.text,{fontSize: 15, width: '45%', fontWeight: '300', color: 'rgba(37, 60, 54, 0.7)'}]}>-----------</Text>
+                <Text style={[styles.text,{fontSize: 15, width: '5%'}]}>Or</Text>
+                <Text style={[styles.text,{fontSize: 15, width: '45%', fontWeight: '300', color: 'rgba(37, 60, 54, 0.7)'}]}>-----------</Text>
             </View>
 
             <View style={styles.authView}>
@@ -67,11 +67,11 @@ const AdminLoginScreen = () => {
 
             <View style={styles.termsView}>
                 <TouchableOpacity>
-                    <Text style={[styles.text, {fontSize: 12, textDecorationLine: 'underline', width: 100 }]}>Terms of Service</Text>
+                    <Text style={[styles.text, {fontSize: 12, textDecorationLine: 'underline', width: '100%' }]}>Terms of Service</Text>
                 </TouchableOpacity>                
-                    <Text style={[styles.text, {fontSize: 12, width: 6}]}> | </Text>
+                    <Text style={[styles.text, {fontSize: 12, width: '5%'}]}> | </Text>
                 <TouchableOpacity>
-                    <Text style={[styles.text, {fontSize: 12, textDecorationLine: 'underline', width: 80 }]}>Privacy Policy</Text>
+                    <Text style={[styles.text, {fontSize: 12, textDecorationLine: 'underline', width: '100%' }]}>Privacy Policy</Text>
                 </TouchableOpacity>
             </View>
 
