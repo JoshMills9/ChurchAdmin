@@ -16,7 +16,7 @@ const AdminLoginScreen = () => {
 
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isContinue, setIsContinue] = useState(false)
-  const [churchName, setChurchName] = useState('Perez')
+  const [churchName, setChurchName] = useState('')
 
   
     const getUser = async() => {
@@ -31,13 +31,23 @@ const AdminLoginScreen = () => {
         }
     }
     getUser()
+
+
+  const getLoggedInState = async () => {
+    try{
+      const save = await AsyncStorage.setItem('login', JSON.stringify(true))
+    }catch(err){
+      console.log(err)
+    }
+  }
+
  
-console.log(churchName)
+
   const handleLogin = async() => {
     setIsContinue(true)
 
-    if(!churchName || !phoneNumber){
-      Alert.alert('Signup Failed', 'Please fill all fields');
+    if(!phoneNumber){
+      Alert.alert('Login Failed', 'Please enter phone number.');
       setIsContinue(false)
       return
     }else{
@@ -70,6 +80,7 @@ console.log(churchName)
             }
 
             if(result?.phone){
+                getLoggedInState();
                 router.push({
                     pathname: '/(auth)/Verification',
                     params: data , 
@@ -82,6 +93,12 @@ console.log(churchName)
           }
         }
   }
+
+
+
+
+
+
 
   return (
     <BackgroundLayout>

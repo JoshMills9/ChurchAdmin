@@ -19,6 +19,7 @@ const VerificationScreen = () => {
   const [isFilled, setIsFilled] = useState('');
   const [isVerify, setIsVerify] = useState(false);
   const [count, setCount] = useState<number>(300);
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
 
   const sendWhatsApp = (phoneNumber: string, message: string) => {
@@ -102,11 +103,27 @@ const saveUserDetails = async() => {
     }else{
         setIsFilled('Valid');
         saveUserDetails()
-        registerUser()
+        if(isLoggedIn){
+          router.push('/(protected)/(tabs)')
+        }else{
+          registerUser()
+        }
     }
   }
 
 
+  useEffect(() => {
+    const value = async () => {
+      const loggedin = await AsyncStorage.getItem('login')
+      if(loggedin){
+        const v = JSON.parse(loggedin)
+        setIsLoggedIn(v)
+      }
+    }
+    value()
+  },[])
+
+console.log(isLoggedIn)
 
 
 

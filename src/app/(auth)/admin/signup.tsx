@@ -8,6 +8,7 @@ import { COLORS } from '@/src/constants/colors'
 import signUpStyles from '@/src/styles/auth/signup'
 import Feather from '@expo/vector-icons/Feather'
 import Ionicons from '@expo/vector-icons/Ionicons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Link, router } from 'expo-router'
 
 const AdminSignupScreen = () => {
@@ -25,7 +26,13 @@ const AdminSignupScreen = () => {
     isSignup: true
   }
 
- 
+  const getLoggedInState = async () => {
+    try{
+      const save = await AsyncStorage.setItem('login', JSON.stringify(false))
+    }catch(err){
+      console.log(err)
+    }
+  }
 
 const signupWithPhoneNumber = async () => {
     setIsContinue(true)
@@ -50,6 +57,8 @@ const signupWithPhoneNumber = async () => {
               throw new Error(data?.message)
             }
 
+            getLoggedInState();
+            
             router.push({
                 pathname: '/(auth)/Verification',
                 params: data , 
