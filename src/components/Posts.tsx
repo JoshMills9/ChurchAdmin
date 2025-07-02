@@ -34,7 +34,7 @@ const Posts = ({post}: any) => {
 
 
   return (
-    <View style={{height: dimensions.height >= 700 ? dimensions.height * 0.70 : dimensions.height * 0.69,paddingTop: showPost ? 0 : 10}}>
+    <View style={{height: dimensions.height >= 700 ? dimensions.height * 0.68 : dimensions.height * 0.69}}>
       {(post && post?.length !== 0) ? 
             <FlatList
             data={post?.sort((a:any, b:any) => b.id - a.id)}

@@ -9,8 +9,8 @@ const VideoPlayer = ({video, pause, full, contentFit,isConnect, native}: {video:
   
 
     const videoSource: VideoSource = {
-        //assetId: video?.vid,
-        uri: video.vid ? video.vid : video,
+        assetId: video?.vid || video,
+        //uri: video.vid ? video.vid : video,
         metadata: {
           title: video.title,
           artist: '',
@@ -19,9 +19,9 @@ const VideoPlayer = ({video, pause, full, contentFit,isConnect, native}: {video:
     
       const player = useVideoPlayer(videoSource, player => {
         player.loop = true;
-        player.showNowPlayingNotification = true ;
+        player.showNowPlayingNotification = pause ? false : true ;
         player.muted = native ? false : true;
-        pause ? player.pause() : player.play()
+        pause ? player.pause() : player.play();
       });
   
     

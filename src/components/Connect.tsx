@@ -16,6 +16,8 @@ const Connect = ({connected} : any) => {
   const [isConnected, setIsConnected] = useState(false);
   const [Item, setItem] = useState({})
   const [data, setData] = useState<any>([])
+
+
   /*const data = [
     /*
     { id: '1', user: '@josh', title: 'Gloryland AG', img: require('../assets/images/d6.jpeg')},
@@ -104,7 +106,6 @@ const Connect = ({connected} : any) => {
 const connectStyles = (dimensions: any) => StyleSheet.create({
   container: {
     height: dimensions.height >= 700 ? dimensions.height * 0.70 : dimensions.height * 0.69,
-    marginTop: 10
   },
   topView: {
     height: 60,
@@ -121,8 +122,7 @@ const connectStyles = (dimensions: any) => StyleSheet.create({
     width: '100%',
     borderRadius: 50,
     paddingHorizontal: 20,
-    borderWidth: 1,
-    borderColor: 'dimgray',
+    backgroundColor: 'rgba(38, 43, 42, 0.8)',
     color: 'white',
     fontSize: dimensions.height >= 700 ? 16 : 13,
     fontWeight: '500'

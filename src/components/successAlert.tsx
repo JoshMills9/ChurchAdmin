@@ -3,7 +3,7 @@ import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import { COLORS } from '../constants/colors'
 
-const SuccessAlert = ({showAlert, success} : {showAlert: any, success: any}) => {
+const SuccessAlert = ({showAlert, success, message} : {showAlert: any, success: any, message: string}) => {
 
     const dimensions = useWindowDimensions()
     const styles = alertStyles(dimensions)
@@ -17,16 +17,17 @@ const SuccessAlert = ({showAlert, success} : {showAlert: any, success: any}) => 
                     <View style={{width: 100, height: 100, borderRadius:50 , borderStyle:"dotted" ,borderWidth: 2, borderColor: COLORS.CREATEBUTTON, alignItems: 'center' , justifyContent: 'center', marginTop: 20}}>
                         <Ionicons name='checkmark-circle-sharp' size={90}  color={COLORS.CREATEBUTTON}/>
                     </View>
-                    <Text style={styles.text}>Success</Text>
+                    <Text style={styles.text}>{message}</Text>
                 </>
                 :
                 <>
                     <View style={{width: 100, height: 100, borderRadius:50 , borderStyle:"dotted" ,borderWidth: 2, borderColor: 'red', alignItems: 'center' , justifyContent: 'center', marginTop: 20}}>
                         <Ionicons name='close-circle-sharp' size={90}  color={'red'}/>
                     </View>
-                    <Text style={styles.text}>Error</Text>
+                    <Text style={styles.text}>{message}</Text>
                 </>
             }
+
             <View style={styles.closeView}>
                 <TouchableOpacity onPress={() => showAlert(false)}>
                     <Text style={styles.closeText}>Close</Text>
@@ -51,7 +52,7 @@ const alertStyles = (dimensions: any) => StyleSheet.create({
         backgroundColor: 'rgb(22, 24, 24)',
         height: '30%',
         width: '90%',
-        top: 150,
+        top: 120,
         alignSelf: 'center',
         position: 'absolute',
         borderRadius: 15,

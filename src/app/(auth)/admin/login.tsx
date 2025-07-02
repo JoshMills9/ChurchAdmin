@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Alert, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { ActivityIndicator, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 
+import SuccessAlert from '@/components/successAlert'
+import { getSuccessState } from '@/constants/getSuccessState'
 import BackgroundLayout from '@/src/components/backgroundLayout'
 import { COLORS } from '@/src/constants/colors'
 import loginStyles from '@/src/styles/auth/login'
-import Feather from '@expo/vector-icons/Feather'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Link, router } from 'expo-router'
@@ -17,7 +18,8 @@ const AdminLoginScreen = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isContinue, setIsContinue] = useState(false)
   const [churchName, setChurchName] = useState('')
-
+  const [alert, setAlert] = useState<any>()
+ 
   
     const getUser = async() => {
         try{
@@ -44,10 +46,9 @@ const AdminLoginScreen = () => {
  
 
   const handleLogin = async() => {
-    setIsContinue(true)
 
     if(!phoneNumber){
-      Alert.alert('Login Failed', 'Please enter phone number.');
+      setAlert(getSuccessState('Please enter phone number.', false))
       setIsContinue(false)
       return
     }else{
@@ -88,12 +89,11 @@ const AdminLoginScreen = () => {
             }
           
           } catch(error: any) {
-            Alert.alert('Login Failed', error?.message.toString())
             setIsContinue(false)
+            setAlert(getSuccessState(error?.message.toString(), false))
           }
         }
   }
-
 
 
 
@@ -119,7 +119,7 @@ const AdminLoginScreen = () => {
             <View>
                 <TouchableOpacity onPress={() => {handleLogin(); setIsContinue(true)}} style={styles.continueView}>
                       {isContinue ? 
-                      <Feather name='loader' size={28} />
+                       <ActivityIndicator size={25} color={'black'}  />
                       :
                       <Text style={styles.continueTxt}>Log In</Text>
                       }
@@ -166,6 +166,9 @@ const AdminLoginScreen = () => {
         </View>
 
         </View>
+
+        {alert && <SuccessAlert message={alert?.message} success={alert.success} showAlert={(v: any) => setAlert(v) } /> }
+
       </View>
     </BackgroundLayout>
   )

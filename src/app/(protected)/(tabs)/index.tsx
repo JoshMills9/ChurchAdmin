@@ -8,6 +8,7 @@ import HomeHeader from '@/src/components/homeHeader'
 import Posts from '@/src/components/Posts'
 import { useWindowDimensions, View } from 'react-native'
 
+import { getObject, setObject } from '@/src/constants/localStorage'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const HomeScreen = () => {
@@ -15,14 +16,10 @@ const HomeScreen = () => {
     const isConnected = useRef(false)
     const [post, setPost] = useState();
 
-    //check if user has seen logged in screen
-    const handleSave = async () => {
-          try {
-            await AsyncStorage.setItem('HasSeen', 'true');
-          } catch (e) {
-            console.error('Failed to save the data to the storage', e);
-          }
-      };
+    useEffect(() => {
+      const obj = getObject('user')
+      setObject('user', {user: obj.user , status: true})
+    }, [])
 
   
 
@@ -48,21 +45,18 @@ const HomeScreen = () => {
           console.error('Error checking post', error);
         }
       };
-
-      useEffect(() => {
-        handleSave();
-        checkConnectedStatus()
-      },[])
+   
+      checkConnectedStatus()
 
   const [show, setShow] = useState('feeds')
   const dimensions = useWindowDimensions()
 
   return (
     <Gradientbackground>
-      <View style={{height: dimensions.height >= 700 ? dimensions.height * 0.15 : dimensions.height * 0.11,}}>
+      <View style={{height: dimensions.height >= 700 ? dimensions.height * 0.18 : dimensions.height * 0.13,}}>
         <HomeHeader picker={false} isSettings={false} isHome={true} screen={(value: any) => setShow(value)} />
       </View>
-      <View style={{ height: dimensions.height >= 700 ? dimensions.height * 0.65 : dimensions.height * 0.67}}>
+      <View style={{ height: dimensions.height >= 700 ? dimensions.height * 0.7 : dimensions.height * 0.67}}>
         { show === 'feeds' && <Feeds /> }
         { show === 'posts' && <Posts post={post} /> }
         { show === 'connect' && <Connect connected={isConnected.current}/> }

@@ -1,18 +1,19 @@
 {
   "expo": {
-    "name": "ChurchAdmin",
-    "slug": "ChurchAdmin",
+    "name": "Church Admin",
+    "slug": "Church Admin",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/adaptive-icon.png",
-    "scheme": "churchadmin",
+    "scheme": "church admin",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "icon": {
         "dark": "./src/assets/images/ios-dark.png"
-      }
+      },
+      "bundleIdentifier": "com.joshmills.ChurchAdmin"
     },
     "android": {
       "adaptiveIcon": {
@@ -20,7 +21,11 @@
         "backgroundColor": "#000000"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.joshmills.ChurchAdmin"
+      "package": "com.joshmills.ChurchAdmin",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -40,7 +45,7 @@
           "image": "./src/assets/images/adaptive-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#000000"
         }
       ],
       [
@@ -61,7 +66,8 @@
         {
           "microphonePermission": "Allow ChurchAdmin to access your microphone."
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true

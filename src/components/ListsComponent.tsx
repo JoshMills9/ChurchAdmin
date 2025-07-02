@@ -105,8 +105,7 @@ const connectStyles = (dimensions: any) => StyleSheet.create({
     width: '100%',
     borderRadius: 50,
     paddingHorizontal: 20,
-    borderWidth: 1,
-    borderColor: 'dimgray',
+    backgroundColor: 'rgba(38, 43, 42, 0.8)',
     color: 'white',
     fontSize: dimensions.height >= 700 ? 16 : 13,
     fontWeight: '500'

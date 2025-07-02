@@ -37,7 +37,7 @@ export const ModalView = (props: any) => {
       {/* Image with rounded top and overlay content */}
       <View style={styles.imageWrapper}>
         <ImageBackground
-          source={{uri: props.item.img ? props.item.img : defaultImage}}
+          source={{uri: props.item.img ?  props.item.img  : defaultImage}}
           style={[styles.image]}
         >
 
@@ -50,7 +50,7 @@ export const ModalView = (props: any) => {
           >
             {/* Title inside gradient */}
             <View style={styles.overlayContent}>
-              <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.title}>{props?.item?.title}</Text>
+              <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.title}>{props.item?.title ? props.item?.title : props.item?.church}</Text>
 
               <View style={styles.favView}>
                 <View style={styles.blessedView}>
@@ -208,7 +208,7 @@ const modalStyles = (dimensions: any) => StyleSheet.create({
     },
     title: {
       color: '#fff',
-      fontSize: dimensions.height >= 700  ? 30 : 25,
+      fontSize: dimensions.height >= 700  ? 25 : 22,
       fontWeight: 'bold',
     },
     favView: {

@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { COLORS } from '../constants/colors';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Badge } from "react-native-paper";
+import { getObject } from '../constants/localStorage';
 //import DateTimePicker from '@react-native-community/datetimepicker';
 
 const HomeHeader = ({screen, isHome, isSettings, picker}: {screen: any, isHome: any, isSettings: any, picker: any,}) => {
@@ -28,32 +28,12 @@ const HomeHeader = ({screen, isHome, isSettings, picker}: {screen: any, isHome: 
         setGreeting("Good evening,");
     }
 
+    const user =  getObject('user');
+    if(user){
+        setChurchName(user?.user?.church);
+        setImg(user?.user?.img)
+    }
 
-
-        const getProfile = async () => {
-            try {
-                const value = await AsyncStorage.getItem('Profile');
-                if (value) {
-                  const p = JSON.parse(value)
-                  setImg(p)
-                }
-              } catch (error) {
-                console.error('Error checking post', error);
-            }
-            try{
-                const user = await AsyncStorage.getItem('user');
-                if(user){
-                    const u = JSON.parse(user);
-                    setChurchName(u.churchName)
-                }
-            }catch(err){
-                console.error('Error checking post', err);
-            }
-        }
-        getProfile()
-
-
-    
      
 
 

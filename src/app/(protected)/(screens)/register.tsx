@@ -180,7 +180,7 @@ useEffect(() => {
         <View style={[styles.nameView, {justifyContent: 'flex-start', gap: 15, alignItems: 'center'}]}>
           <Text style={styles.text}>No. of Children:</Text>
               <>
-                <Feather name='users' color={NumberOfChildren ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={18} style={{position: 'absolute' , top: 31, left: 148}}/>
+                <Feather name='users' color={NumberOfChildren ? COLORS.CREATEBUTTON : COLORS.SECONDARYTEXT} size={18} style={{position: 'absolute' , top: 31, left: 140}}/>
                 <TextInput maxLength={2} keyboardType='number-pad' value={NumberOfChildren} onChangeText={(txt) => setNumberOfChildren(txt)} placeholder='0' placeholderTextColor={COLORS.SECONDARYTEXT} style={{ width: '20%',borderColor: 'dimgray', borderRadius: 10, borderWidth: 1, paddingVertical: 8 , paddingLeft: 40, paddingRight: 5 , height: 40, color: 'white', fontSize: 16}}/>
               </>
         </View>
@@ -299,7 +299,7 @@ useEffect(() => {
 
       {showPicker && <ImagePickerComponent Close={(value: any) => setShowPicker(value)}  videoOut={{}} remove={() => setPhoto('')} imageOut={(value:any) => setPhoto(value)}  profile={'Choose photo'} isVideo={false} />}
       
-      {isRegister && <SuccessAlert success={true} showAlert={(value: any) => setIsRegister(value)} />}  
+      {isRegister && <SuccessAlert message='success' success={true} showAlert={(value: any) => setIsRegister(value)} />}  
       
     
     </View>

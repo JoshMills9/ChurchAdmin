@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, ImageBackground, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { FlatList, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 
 import { postStyles } from '@/src/styles/post/post'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { LinearGradient } from 'expo-linear-gradient'
 import { Link, useRouter } from 'expo-router'
 
 
 import { useExpoAudioRecorder } from '@/src/components/audioRecorder'
+import SuccessAlert from '@/src/components/successAlert'
 import VideoPlayer from '@/src/components/VideoPlayer'
 import { COLORS } from '@/src/constants/colors'
+import { getObject } from '@/src/constants/localStorage'
 import { Picker } from '@/src/constants/picker'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useAudioPlayer } from 'expo-audio'
 
 const CreatePost = () => {
@@ -31,8 +31,6 @@ const CreatePost = () => {
 
 
 
-    const [isKeyboardShow, setIsKeyboardShow] = useState(true)
-
     const [savePost, setSavePost] = useState<any>([])
     const [pallet, setPallet] = useState(false)
     const [color, setColor] = useState('');
@@ -41,7 +39,8 @@ const CreatePost = () => {
     const [vid, setVid] = useState<string>()
     const [title, setTitle] = useState('');
     const [voice, setVoice] = useState<boolean>();
-   
+    const [closeAlert, setCloseAlert] = useState<boolean>(true);
+    const [error, setError] = useState()
     
     const colors = [
         {id: '1', color: 'red'},{id: '2', color: 'orange'},{id: '3', color: 'blue'},
@@ -50,7 +49,7 @@ const CreatePost = () => {
         {id: '10', color: 'brown'},{id: '11', color: 'gold'},{id: '12', color: 'cyan'},
     ]
 
-    const posts = {
+    const post = {
         id: title + text, 
         img: img,
         bg: color,
@@ -64,46 +63,35 @@ const CreatePost = () => {
         shared: []
     }
 
-     //useEffect to fetch post from storage
-    useEffect(() => {
-        const getPostFromStorage = async () => {
-        try {
-            const value = await AsyncStorage.getItem('Posts');
-            if (value) {
-            const p = JSON.parse(value)
-            setSavePost(p)
-            } else {
-   
+
+    const createPost = async() => {
+        const user = getObject('user');
+
+        if(!img || !text || !vid || !voice){
+            return closeAlert && <SuccessAlert showAlert={(v: any) => setCloseAlert(v)} success={false} /> 
+        }else{
+            try{
+                const response = await fetch(`https://churchadmin-backend-api.onrender.com/admin/posts/${user.user.id}`, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(post),
+                  });
+
+                const createdPost = await response.json();
+              
+            }catch(err){
+                alert(err)
             }
-        } catch (error) {
-            console.error('Error checking post', error);
         }
-        };
-        getPostFromStorage()
-
-    },[])
-
-
-    const handleSave = (newPost: any) => {
-        if(newPost && (newPost.text || newPost.vid || newPost.img) ){
-            setSavePost((prevPost: any) => [newPost, ...prevPost])
         }
-      };
+    
 
-    //useEffect to save newPost to Storage
-      useEffect(() => {
-        if(savePost){
-            const save = async () => {
-                try{
-                    const stringValue = JSON.stringify(savePost);
-                    await AsyncStorage.setItem('Posts', stringValue);
-              }catch (e) {
-                    console.error('Failed to save the data to the storage', e);
-              }
-            }
-            save()
-        }
-      },[savePost])
+
+
+
+
 
 
 
@@ -138,23 +126,61 @@ const CreatePost = () => {
           console.log('Recording started...');
         }
       };
+
+
+
+
+
+      
+      const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+      useEffect(() => {
+          const keyboardDidShowListener = Keyboard.addListener(
+              'keyboardDidShow',
+              (e: any) => {
+                  setKeyboardHeight(e.endCoordinates.height);
+              }
+          );
+  
+          const keyboardDidHideListener = Keyboard.addListener(
+              'keyboardDidHide',
+              () => {
+                  setKeyboardHeight(0);
+              }
+          );
+  
+          return () => {
+              keyboardDidShowListener.remove();
+              keyboardDidHideListener.remove();
+          };
+      }, []);
+  
     
 
   return (
-    <View style={[styles.container,{backgroundColor: color}]}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -500} style={[styles.container,{backgroundColor: color,}]}>
+        
         <View style={{position: 'absolute', top: 0,zIndex:9, padding: 10, width: '100%',justifyContent: 'space-between',alignItems: 'center', flexDirection:'row'}}>
             <TouchableOpacity style={{width: '11.5%', backgroundColor: "rgba(0,0,0,0.5)",justifyContent:'center', alignItems:'center', height: 45 , borderRadius: 50}} onPress={() => router.back()} >
                 <Ionicons name='close-sharp' color={'white'} size={28} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=> setPallet(!pallet)} style={styles.cameraView}>
-                <Ionicons name={pallet ? 'color-palette-sharp' : 'color-palette-outline'} size={30} color={'white'} />
-            </TouchableOpacity>
+            {(vid || img || voice) ?
+                <TouchableOpacity onPress={() => vid && setVid('') || img && setImg('') || voice   } style={[styles.cameraView,{ width: 80}]}>
+                    <Text style={{fontSize: 15, color: 'white', fontWeight: '500'}}>Undo</Text>
+                </TouchableOpacity>
+                :
+                <TouchableOpacity onPress={()=> setPallet(!pallet)} style={styles.cameraView}>
+                    <Ionicons name={pallet ? 'color-palette-sharp' : 'color-palette-outline'} size={30} color={'white'} />
+                </TouchableOpacity>
+            }
+
         </View>
 
         <View style={[styles.mainView, { overflow: 'hidden', borderRadius:10, width: dimensions.width,}]}>
             {vid ?
                 <>
-                    <TextInput autoFocus={true} value={title} onChangeText={(txt) => setTitle(txt)} placeholder='Title' placeholderTextColor={'white'} cursorColor={'white'} style={{position: 'absolute',zIndex:9, top: 60, borderColor:'dimgray', borderWidth: 1, height: 50,borderRadius: 10,color:'white', fontSize: 16,fontWeight:'500', padding:15, width: '100%'}} />
+                    <TextInput autoFocus={true || vid} value={title} onChangeText={(txt) => setTitle(txt)} placeholder='Title' placeholderTextColor={'white'} cursorColor={'white'} style={{position: 'absolute',zIndex:9, top: 60, borderColor:'dimgray', borderWidth: 1, height: 50,borderRadius: 10,color:'white', fontSize: 16,fontWeight:'500', padding:15, width: '100%'}} />
                     <VideoPlayer isConnect={false} contentFit={'cover'} full={false} native={false} pause={false} video={vid} />
                 </>                 
                 :
@@ -166,16 +192,28 @@ const CreatePost = () => {
                             </View>
                         </View>                        
                         : 
-                        <TextInput autoFocus={true} inputMode='text'  value={img ? title : text} onChangeText={(txt) => img ? setTitle(txt) : setText(txt)}  multiline={true} maxLength={200} cursorColor={'white'} placeholder={img ? 'Add Title' : "What's on your mind?"} placeholderTextColor={'white'} style={styles.textInput} /> }
+                        <TextInput autoFocus={true || img} inputMode='text'  value={img ? title : text} onChangeText={(txt) => img ? setTitle(txt) : setText(txt)}  multiline={true} maxLength={200} cursorColor={'white'} placeholder={img ? 'Add Title' : "What's on your mind?"} placeholderTextColor={'white'} style={styles.textInput} /> }
                 </ImageBackground>
             }
         </View>
         
-        <View style={{height: 100, width: '100%', justifyContent: 'flex-end',}}>
-            <LinearGradient
-            colors={['transparent', '#000', ]}
-            style={[styles.gradient]}
-            >
+        <View style={{height: 150, width: '100%', justifyContent: 'flex-end', paddingBottom: keyboardHeight > 10 ? keyboardHeight + 10 : 15 }}>
+       
+
+                <View style={{height: 50}}>
+                    {pallet && <FlatList 
+                        data={colors}
+                        keyExtractor={(item) => item.id}
+                        style={{padding: 15, zIndex: 9}}
+                        showsHorizontalScrollIndicator={false}
+                        horizontal={true}
+                        renderItem={({item, index}) => (
+                            <TouchableOpacity  onPress={() => {setColor(item.color)}} style={{ backgroundColor: item.color, height: 35, width: 35,marginRight: 10, borderRadius:50, elevation:2 , borderWidth: color === item.color ? 2 : 0, borderColor: color === item.color ? 'white' : ''}} />     
+                        )}
+                        />
+                    }
+                </View>
+
                 <View style={{height: 80,  width: '100%', flexDirection:'row', justifyContent: 'space-between', alignItems: 'center', padding: 10,}}>
                     <View style={{width: '60%', flexDirection:'row', justifyContent: 'space-between', alignItems: 'center',}}>
                         <TouchableOpacity onPress={() => pickMediaFile('camera')} style={styles.cameraView}>
@@ -193,30 +231,15 @@ const CreatePost = () => {
                     </View>
                     {(text || img || vid || voice) &&
                         <Link href={{'pathname' : '/(protected)/(tabs)'}} push asChild >
-                            <TouchableOpacity onPress={() => handleSave(posts)} style={styles.post}>
+                            <TouchableOpacity onPress={createPost} style={styles.post}>
                                 <Ionicons name='send-sharp' size={25} color={COLORS.CREATEBUTTON}  />
                             </TouchableOpacity>
                         </Link>
                     }
                 </View>
 
-                <View style={{position:'absolute', bottom: 65, zIndex: 9}}>
-                    {pallet && <FlatList 
-                        data={colors}
-                        keyExtractor={(item) => item.id}
-                        style={{padding: 15}}
-                        showsHorizontalScrollIndicator={false}
-                        horizontal={true}
-                        renderItem={({item, index}) => (
-                            <TouchableOpacity  onPress={() => {setColor(item.color)}} style={{ backgroundColor: item.color, height: 35, width: 35,marginRight: 10, borderRadius:50, elevation:2 , borderWidth: color === item.color ? 2 : 0, borderColor: color === item.color ? 'white' : ''}} />     
-                        )}
-                        />
-                    }
-                </View>
-                
-            </LinearGradient>
         </View>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 

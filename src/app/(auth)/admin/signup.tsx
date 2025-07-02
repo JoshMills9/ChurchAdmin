@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { Alert, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 
 
 
+import SuccessAlert from '@/components/successAlert'
+import { getSuccessState } from '@/constants/getSuccessState'
 import BackgroundLayout from '@/src/components/backgroundLayout'
 import { COLORS } from '@/src/constants/colors'
 import signUpStyles from '@/src/styles/auth/signup'
@@ -19,6 +21,11 @@ const AdminSignupScreen = () => {
   const [churchName, setChurchName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isContinue, setIsContinue] = useState(false)
+  const [alert, setAlert] = useState<any>()
+
+
+
+
 
   const user = {
     churchName,
@@ -38,7 +45,7 @@ const signupWithPhoneNumber = async () => {
     setIsContinue(true)
 
     if(!churchName || !phoneNumber){
-      Alert.alert('Signup Failed', 'Please fill all fields');
+      setAlert(getSuccessState('Please fill all fields', false))
       setIsContinue(false)
       return
     }else{
@@ -51,7 +58,7 @@ const signupWithPhoneNumber = async () => {
               body: JSON.stringify(user)
             })
             const data = await res.json()
-            console.log(data)
+
 
             if(!res.ok){
               throw new Error(data?.message)
@@ -66,8 +73,7 @@ const signupWithPhoneNumber = async () => {
             
           
           } catch(error: any) {
-            console.error('Error sending verification code:', error.message);
-            Alert.alert('Signup Failed', error?.message.toString())
+            setAlert(getSuccessState(error?.message.toString(), false))
             setIsContinue(false)
           }
         }
@@ -143,6 +149,10 @@ const signupWithPhoneNumber = async () => {
             </View>
 
            </View>
+
+           {alert && <SuccessAlert message={alert?.message} success={alert.success} showAlert={(v: any) => setAlert(v) } /> }
+
+
         </View>
     </BackgroundLayout>
   )

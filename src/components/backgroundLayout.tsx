@@ -22,7 +22,7 @@ const BackgroundLayout = ({children}: any) => {
         >
           <View style={styles.topView}>
             <View style={styles.left}><Image tintColor={"white"} source={require('../assets/images/adaptive-icon.png')} style={{width: 120, height: 120}} /></View>
-            <View style={styles.right}><Text style={styles.appName}>ChurchAdmin</Text></View>
+            <View style={styles.right}><Text style={styles.appName}>Church Admin</Text></View>
           </View>
 
           <View>
@@ -41,7 +41,7 @@ const BackgroundStyles = (dimensions: any) => StyleSheet.create({
     opacity: 0.92
   },
   topView: {
-      height: dimensions.height * 0.15,
+      height: dimensions.height * 0.155,
       flexDirection: 'row',
       justifyContent: 'center',
   },

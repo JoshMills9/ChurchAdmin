@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Linking, Text, TextInput, ToastAndroid, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { Linking, Text, TextInput, ToastAndroid, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 
+import SuccessAlert from '@/components/successAlert'
+import { getSuccessState } from '@/constants/getSuccessState'
 import BackgroundLayout from '@/src/components/backgroundLayout'
 import { COLORS } from '@/src/constants/colors'
+import { setObject } from '@/src/constants/localStorage'
 import verificationStyles from '@/src/styles/auth/verification'
 import Feather from '@expo/vector-icons/Feather'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -20,9 +23,10 @@ const VerificationScreen = () => {
   const [isVerify, setIsVerify] = useState(false);
   const [count, setCount] = useState<number>(300);
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [alert, setAlert] = useState<any>()
 
 
-  const sendWhatsApp = (phoneNumber: string, message: string) => {
+  const sendWhatsApp = (phoneNumber: any, message: string) => {
     const url = `whatsapp://send?phone=${phoneNumber.replace('+', '')}&text=${encodeURIComponent(message)}`;
     Linking.openURL(url).catch(() => {
       ToastAndroid.show('WhatsApp not installed', ToastAndroid.SHORT);
@@ -32,7 +36,7 @@ const VerificationScreen = () => {
   };
 
   useEffect(() => {
-    Alert.alert("OTP sent", "An OTP has been sent to your phone number")
+    setAlert(getSuccessState("An OTP has been sent to your phone number", true))
     // Send the code via WhatsApp
     sendWhatsApp(phone, `Your Church Admin verification code is ${code}`);
   }, [phone, code])
@@ -70,6 +74,8 @@ const VerificationScreen = () => {
     
         const data = await response.json();
 
+        setObject('user', {user: phone, status: false})
+
         if (!data) {
             console.error('Server error:', data);
             return null;
@@ -84,13 +90,7 @@ const VerificationScreen = () => {
 
   }
  
-const saveUserDetails = async() => {
-    try{
-        const user = await AsyncStorage.setItem('user', JSON.stringify({churchName}))
-    }catch(err){
-        console.log(err)
-    }
-}
+
 
 
   const handleVerification = (code: any) => {
@@ -102,7 +102,6 @@ const saveUserDetails = async() => {
         return console.log('Invalid code')
     }else{
         setIsFilled('Valid');
-        saveUserDetails()
         if(isLoggedIn){
           router.push('/(protected)/(tabs)')
         }else{
@@ -123,7 +122,7 @@ const saveUserDetails = async() => {
     value()
   },[])
 
-console.log(isLoggedIn)
+
 
 
 
@@ -161,6 +160,9 @@ console.log(isLoggedIn)
                     </TouchableOpacity>
                 </View>
             </View>
+
+            {alert && <SuccessAlert message={alert?.message} success={alert.success} showAlert={(v: any) => setAlert(v) } /> }
+
         </View>
     </BackgroundLayout> 
   )

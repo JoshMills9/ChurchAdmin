@@ -9,18 +9,12 @@ export const postStyles = (dimensions : any) => StyleSheet.create({
         backgroundColor: 'rgb(2, 9, 8)',
         width: dimensions.width,
         justifyContent: 'space-between',
-        paddingBottom: 15
     },
-    gradient: {
-        height: '100%',
-        width: '100%',
-        justifyContent: 'flex-end',
-      },
-
+ 
       mainView: {
         height: 500,
         width: dimensions.width,
-        justifyContent: 'center'
+        justifyContent: 'center',
       },
       textInput: {
         height: '100%',

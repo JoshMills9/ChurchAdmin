@@ -1,11 +1,11 @@
+import { COLORS } from '@/constants/colors';
+import { homeStyles } from '@/styles/home/home.styles';
 import Feather from '@expo/vector-icons/Feather';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { FlatList, ImageBackground, Pressable, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
-import { COLORS } from '../constants/colors';
-import { homeStyles } from '../styles/home/home.styles';
 import { ModalView } from './eventModal';
 
 const Feeds = () => {
@@ -47,7 +47,7 @@ const Feeds = () => {
  
   
   return (
-    <View style={{height: dimensions.height >= 700 ? dimensions.height * 0.70 : dimensions.height * 0.69,}}>
+    <View style={{height: dimensions.height >= 700 ? dimensions.height * 0.68 : dimensions.height * 0.69, marginBottom: 10}}>
       <View style={styles.container}>
         <View style={styles.eventView}>
           <View>
@@ -59,7 +59,7 @@ const Feeds = () => {
                   keyExtractor={(item, index) => item.id}
                   style={{width: dimensions.width >= 400 ? 380 : 380 }}
                   renderItem={({item, index}) => (
-                    <Pressable onPress={() => {setIsvisble(!isVisible); setItem(item)}}  style={{ borderRadius: 15, opacity: isVisible ? 0.8 : 1, width: event.length === 1 ? dimensions.width >= 400 ? 360 : 250: dimensions.width >= 400 ? 250 : 220, marginRight: dimensions.height >= 700 ? 10 : 5,overflow:'hidden'}}> 
+                    <Pressable onPress={() => {setIsvisble(!isVisible); setItem(item)}}  style={{borderRadius: 15, opacity: isVisible ? 0.8 : 1, width: event.length === 1 ? dimensions.width >= 400 ? 360 : 250: dimensions.width >= 400 ? 250 : 220, marginRight: dimensions.height >= 700 ? 10 : 5,overflow:'hidden'}}> 
                       <ImageBackground  source={{uri: item.img}} style={{width: event.length === 1 ? dimensions.width >= 400 ? 360 : 250: dimensions.width >= 400 ? 250 : 220, height:dimensions.height >= 700 ? 120 : 85 ,justifyContent: 'space-between', alignItems: 'flex-end',padding: 5, borderRadius: 15, }} >
                         <View style={{ width: dimensions.height >= 700 ? 25 : 20,justifyContent:"center",alignItems:"center", borderRadius:12.5, height: dimensions.height >= 700 ? 25 : 20,paddingHorizontal:5, backgroundColor:"rgba(0,0,0,0.5)"}}>  
                           <Ionicons name='ellipsis-horizontal-sharp' color={'white'} size={dimensions.height >= 700 ? 15 : 12}/>
@@ -73,7 +73,7 @@ const Feeds = () => {
                   />
               :
                   <Link href={'/(protected)/(screens)/event'} asChild push>
-                    <TouchableOpacity onPress={() => console.log("pressed")} style={{borderColor: 'rgb(24, 29, 28)',borderWidth: 1, height:dimensions.height >= 700 ? 120 : 85, width: dimensions.width >= 400 ? 360 : 340, borderRadius: 15 , justifyContent: 'center', alignItems: 'center', padding: 5, marginTop:  dimensions.height >= 700 ? 0 : 10}}>
+                    <TouchableOpacity onPress={() => console.log("pressed")} style={{borderColor: 'rgb(24, 29, 28)', borderWidth: 1, height:dimensions.height >= 700 ? 120 : 85, width: dimensions.width >= 400 ? 360 : 340, borderRadius: 15 , justifyContent: 'center', alignItems: 'center', padding: 5, marginTop:  dimensions.height >= 700 ? 0 : 10}}>
                         <View>
                           <Text style={{fontSize: dimensions.height >= 700 ? 16 : 14, fontWeight:"600",color:COLORS.SECONDARYTEXT}} adjustsFontSizeToFit={true} numberOfLines={1}>{"Post event"}</Text>
                         </View>

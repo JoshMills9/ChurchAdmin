@@ -8,13 +8,13 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 const StackLayout = () => {
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{flex: 1,}}>
         <StatusBar backgroundColor={'rgb(2, 9, 8)'} barStyle={'light-content'}/>
         <Stack 
         screenOptions={{
           headerTitleStyle:{fontSize: 23,color: 'white',}
           ,headerTintColor: 'white', headerStyle: {backgroundColor: 'rgb(2, 9, 8)',},
-          contentStyle:{backgroundColor: 'rgb(2, 9, 8)', }, animation:'none'}}
+          contentStyle:{backgroundColor: 'rgb(2, 9, 8)', }, animation:'none',}}
         
         >
             <Stack.Screen name='createPost' options={{headerShown: false}} />

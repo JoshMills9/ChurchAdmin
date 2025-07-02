@@ -1,32 +1,33 @@
+import { getObject, setObject } from "@/constants/localStorage";
 import { Stack } from "expo-router";
 import { useLayoutEffect, useState } from "react";
 import { StatusBar } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function RootLayout() {
 
   const [hasSeenHomeScreen, setHasSeenHomeScreen] = useState<boolean | null>(null);
-  
-  useLayoutEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const value = await AsyncStorage.getItem('HasSeen');
-        if (value === 'true') {
-          setHasSeenHomeScreen(true);
-        } else {
-          setHasSeenHomeScreen(false);
-        }
-      } catch (error) {
-        console.error('Error checking onboarding status', error);
-        setHasSeenHomeScreen(false); // Default to showing onboarding if there's an error
-      }
-    };
 
-    
-    checkLoginStatus()
-  }, []);
+  const getUser = async(user: any) => {
+    const res = await fetch(`https://churchadmin-backend-api.onrender.com/admin/users/${user?.user?.phone}`);
+    const U = await res.json();
+
+    setObject('user', { user: U , status: user?.status})
+  }
+
+
+
+  useLayoutEffect(() => {
+    const user = getObject('user');
+    setHasSeenHomeScreen(user?.status);
+
+    if(user){
+      getUser(user)
+    }
+
+  },[])
 
   if (hasSeenHomeScreen === null) {
     return null;

@@ -138,7 +138,7 @@ const ViewPost = ({onClose, item}: {onClose: any, item: any}) => {
                                     <Text adjustsFontSizeToFit={true} numberOfLines={1} style={[styles.title, {marginLeft: 15}]}>{item.title}</Text>
                                     <LinearGradient
                                     colors={['transparent', '#000']}
-                                    style={styles.gradient}
+                                    style={[styles.gradient,{height: 150}]}
                                     >
                                         {/* Title inside gradient */}
                                         <View>
@@ -170,7 +170,7 @@ const ViewPost = ({onClose, item}: {onClose: any, item: any}) => {
                                 </ImageBackground>
                              ))
                             :
-                            <ImageBackground style={[styles.image, {backgroundColor: item.bg, height: '100%', width: dimensions.width,}]}   source={{uri : item.img}}>
+                            <ImageBackground resizeMode='contain' style={[styles.image, {backgroundColor: item.bg, height: 700, width: dimensions.width,}]}   source={{uri : item.img}}>
                                 <View style={{flex: 1, justifyContent: 'center',}}>
                                     <View style={{padding: 15}}>
                                     <Text style={styles.text}>{item.text}</Text>
@@ -180,7 +180,7 @@ const ViewPost = ({onClose, item}: {onClose: any, item: any}) => {
                                 <Text adjustsFontSizeToFit={true} numberOfLines={1} style={[styles.title, {marginLeft: 15}]}>{item.title}</Text>
                                 <LinearGradient
                                 colors={['transparent', '#000']}
-                                style={styles.gradient}
+                                style={[styles.gradient,{height: 150}]}
                                 >
                                     {/* Title inside gradient */}
                                     <View>
@@ -194,9 +194,9 @@ const ViewPost = ({onClose, item}: {onClose: any, item: any}) => {
                                     keyExtractor={(item) => item.id}
                                     renderItem={({item, index}) => (
                                         <View style={styles.commentView}>
-                                            <View style={{width: 50, height: 50 , borderRadius: 50, justifyContent:'center', alignItems: 'center', elevation: 5, backgroundColor: 'rgba(24, 29, 28, 0.85)'}}>
+                                            <View style={{width: 40, height: 40 , borderRadius: 50, justifyContent:'center', alignItems: 'center', elevation: 5, backgroundColor: 'rgba(24, 29, 28, 0.85)'}}>
                                                 {item.img ?
-                                                    <Image source={item.img}  style={{width: 50, height: 50 , borderRadius: 50}} />
+                                                    <Image source={item.img}  style={{width: 40, height: 40 , borderRadius: 50}} />
                                                     :
                                                     <Ionicons name='person-sharp' size={25} color={'gray'}  />
                                                 }   
@@ -239,7 +239,7 @@ const modalStyles = (dimensions: any) => StyleSheet.create({
         
     },
     topView: {
-        height: 40,
+        height: 60,
         width: '100%',
         flexDirection: 'row',
         paddingHorizontal: 15,
@@ -298,12 +298,12 @@ const modalStyles = (dimensions: any) => StyleSheet.create({
         fontSize: dimensions.height >= 700 ? 20 : 16,
     },
     user: {
-        fontSize:  dimensions.height >= 700 ? 15 : 13,
+        fontSize:  dimensions.height >= 700 ? 14 : 12,
         fontWeight: '400',
         color: '#fff'
     },
     comment: {
-        fontSize: dimensions.height >= 700 ?  12 : 10, 
+        fontSize: dimensions.height >= 700 ?  11 : 9, 
         fontWeight: '400',
         color: 'lightgray',
         textAlign: 'justify',
