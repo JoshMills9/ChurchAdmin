@@ -6,7 +6,7 @@ import { COLORS } from '../constants/colors'
 import CommunityConnect from './CommunityConnect'
 import { ModalView } from './eventModal'
 
-const Connect = ({connected} : any) => {
+const Connect = ({connected, data} : any) => {
  
   const dimensions = useWindowDimensions()
   const styles = connectStyles(dimensions)
@@ -15,7 +15,9 @@ const Connect = ({connected} : any) => {
   const [isVisible, setIsvisble] = useState(false)
   const [isConnected, setIsConnected] = useState(false);
   const [Item, setItem] = useState({})
-  const [data, setData] = useState<any>([])
+  const [isSeen, setIsSeen] = useState(false)
+
+
 
 
   /*const data = [
@@ -33,25 +35,21 @@ const Connect = ({connected} : any) => {
     ]*/
 
 
-    const getChurches = async() => {
-      try{
-        const res = await fetch('https://churchadmin-backend-api.onrender.com/admin/users');
-        const data = await res.json()
-       setData(data)
-      }catch(err){
-        console.log(err)
-      }
-    }
 
+
+
+    
+
+  
  
 
   return (
     <View style={styles.container}>
       <View style={styles.topView}>
-        {(connect || connected) && <TextInput value={search} onChangeText={(txt) => setSeaarch(txt)} placeholderTextColor={COLORS.SECONDARYTEXT} placeholder='Search a church' style={styles.textInput} /> }
+        {(connect || connected ) && <TextInput value={search} onChangeText={(txt) => setSeaarch(txt)} placeholderTextColor={COLORS.SECONDARYTEXT} placeholder='Search a church' style={styles.textInput} /> }
       </View>
       <View style={styles.bottomView}>
-        {data && data.length !== 0 ? 
+        {((data && data.length !== 0) || connected || connect) ? 
             <FlatList
               data={data?.filter((church: any) => 
                 church.church && church.user && (church.church.toLowerCase().includes(search.toLowerCase()) || 
@@ -72,7 +70,7 @@ const Connect = ({connected} : any) => {
                         {
                           item.img 
                           ? 
-                          <Image source={item.img} style={{width: dimensions.height >= 700 ? 50 : 40 , height: dimensions.height >= 700 ? 50 : 40, borderRadius: 50}} /> 
+                          <Image source={{uri: item.img}} style={{width: dimensions.height >= 700 ? 50 : 40 , height: dimensions.height >= 700 ? 50 : 40, borderRadius: 50}} /> 
                           : 
                           <Ionicons name='person-outline' size={dimensions.height >= 700 ? 24 : 20} color={COLORS.SECONDARYTEXT} />
                         }
@@ -92,7 +90,7 @@ const Connect = ({connected} : any) => {
               :
 
               <View style={{height: '100%',}}>
-                  <CommunityConnect onPress={(value: any) => {setConnect(value);getChurches()}} />
+                  <CommunityConnect onPress={(value: any) => {setConnect(value);}} />
               </View>
           }
       </View>

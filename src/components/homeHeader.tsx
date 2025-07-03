@@ -1,5 +1,5 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { COLORS } from '../constants/colors';
 
@@ -28,11 +28,20 @@ const HomeHeader = ({screen, isHome, isSettings, picker}: {screen: any, isHome: 
         setGreeting("Good evening,");
     }
 
-    const user =  getObject('user');
-    if(user){
-        setChurchName(user?.user?.church);
-        setImg(user?.user?.img)
-    }
+    useLayoutEffect(() => {
+        const intervalId = setInterval( async () => {
+            const user = await getObject('user');
+            setChurchName(user.user.church);
+            setImg(user.user.img)
+          }, 1000);
+      
+          // ✅ Cleanup function to clear interval
+          return () => clearInterval(intervalId);
+
+    }, [img, church ])
+
+
+    
 
      
 
@@ -43,7 +52,7 @@ const HomeHeader = ({screen, isHome, isSettings, picker}: {screen: any, isHome: 
             <View style={styles.infoView}>
                 <TouchableOpacity disabled={!isSettings} onPress={() => picker(true)} style={styles.imgView}>
                     {Img ?
-                        <Image source={{uri: Img}}   style={{width: dimensions.width >= 400 ? 70 : 70, height: dimensions.height >= 700 ? 70 : 70, borderRadius: 50}} />
+                        <Image source={{uri: Img}} resizeMode='contain'   style={{width: dimensions.width >= 400 ? 70 : 70, height: dimensions.height >= 700 ? 70 : 70, borderRadius: 50}} />
                         :
                         <View style={{ width: dimensions.width >= 400 ? 70 : 70, height: dimensions.height >= 700 ? 70 : 70, }}>
                             <Ionicons name="person-circle-sharp" size={75}  color={COLORS.SECONDARYTEXT} />

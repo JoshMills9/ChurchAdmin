@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 
 import Connect from '@/src/components/Connect'
 import Feeds from '@/src/components/feeds'
@@ -9,24 +9,18 @@ import Posts from '@/src/components/Posts'
 import { useWindowDimensions, View } from 'react-native'
 
 import { getObject, setObject } from '@/src/constants/localStorage'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const HomeScreen = () => {
    
     const isConnected = useRef(false)
-    const [post, setPost] = useState();
-
-    useEffect(() => {
-      const obj = getObject('user')
-      setObject('user', {user: obj.user , status: true})
-    }, [])
-
-  
+    const [post, setPost] = useState<any>([]);
+    const [event, setEvent] = useState<any>([])
+    const [data, setData] = useState<any>([])
 
       const checkConnectedStatus = async () => {
         try {
-          const value = await AsyncStorage.getItem('connected');
-          if (value === 'connect') {
+          const value = await getObject('connected')
+          if (value) {
             isConnected.current = true;
           } else {
             isConnected.current = false;
@@ -34,19 +28,61 @@ const HomeScreen = () => {
         } catch (error) {
           console.error('Error checking connect status', error);
         }
-
-        try {
-          const value = await AsyncStorage.getItem('Posts');
-          if (value) {
-            const p = JSON.parse(value)
-            setPost(p)
-          }
-        } catch (error) {
-          console.error('Error checking post', error);
-        }
+       
       };
-   
-      checkConnectedStatus()
+
+        
+      const getPosts = async () => {
+        const user = await getObject('user')
+        setPost(user.user.posts.reverse())
+      } 
+
+
+      const getEvents = async() => {
+         const user =  await getObject('user')
+         setEvent(user.user.events.reverse()) 
+      }
+
+ 
+
+      const getChurches = async() => {
+        try{
+          const res = await fetch('https://churchadmin-backend-api.onrender.com/admin/users');
+          const data = await res.json()
+         setData(data)
+        }catch(err){
+          console.log(err)
+        }
+      }
+  
+
+
+
+      const getInfo =  async () => {
+        const obj = await getObject('user')
+        if(obj){
+          setObject('user', {user: obj.user , status: true})
+        }
+      }
+    
+
+
+
+      useLayoutEffect(() => {
+        checkConnectedStatus();
+        getPosts();
+        getEvents()
+        getChurches()
+        getInfo();
+      }, [post, event, data])
+  
+
+
+  
+
+      
+
+
 
   const [show, setShow] = useState('feeds')
   const dimensions = useWindowDimensions()
@@ -57,9 +93,9 @@ const HomeScreen = () => {
         <HomeHeader picker={false} isSettings={false} isHome={true} screen={(value: any) => setShow(value)} />
       </View>
       <View style={{ height: dimensions.height >= 700 ? dimensions.height * 0.7 : dimensions.height * 0.67}}>
-        { show === 'feeds' && <Feeds /> }
+        { show === 'feeds' && <Feeds event={event} /> }
         { show === 'posts' && <Posts post={post} /> }
-        { show === 'connect' && <Connect connected={isConnected.current}/> }
+        { show === 'connect' && <Connect connected={isConnected.current} data={data}/> }
       </View>
     </Gradientbackground>
   )

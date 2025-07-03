@@ -1,3 +1,4 @@
+import { getObject } from '@/constants/localStorage'
 import { DatePicker } from '@/src/components/datePicker'
 import ImagePickerComponent from '@/src/components/ImagePicker'
 import SuccessAlert from '@/src/components/successAlert'
@@ -6,10 +7,9 @@ import { COLORS } from '@/src/constants/colors'
 import { eventStyles } from '@/src/styles/events/events'
 import Feather from '@expo/vector-icons/Feather'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { router } from 'expo-router'
 import React, { useState } from 'react'
-import { Image, Pressable, ScrollView, Text, TextInput, ToastAndroid, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { ActivityIndicator, Image, Pressable, ScrollView, Text, TextInput, ToastAndroid, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 
 
 
@@ -31,6 +31,7 @@ const EventScreen = () => {
   const [create, setCreate] = useState<boolean>(false)
   const [showImagePicker, setShowImagePicker] = useState<boolean>(false);
   const [showDatePicker, setDatePicker] = useState<boolean>(false)
+  const [postEvent, setPostEvent] = useState(false)
 
   const newEvent = {
     title,
@@ -44,20 +45,50 @@ const EventScreen = () => {
   }
 
 
-  const HandleSaveEvent = async() => {
-      if(!title || !img){
-        return ToastAndroid.show('Please provide title and image', ToastAndroid.LONG)
-      }else{
-        setCreate(true)
+  const createEvent = async() => {
+    setPostEvent(true)
+    const user = await getObject('user');
+
+    if (!user?.user?._id) {
+        console.warn('User ID not found');
+        return;
       }
 
-      try{
-        await AsyncStorage.setItem('events', JSON.stringify(newEvent))
-        router.push('/(protected)/(tabs)')
-      }catch(err){
-        console.log(err)
-      }
-  }
+    if(!title || !img){
+        setPostEvent(false)
+        ToastAndroid.show("Fields cannot be empty!", ToastAndroid.SHORT)
+        return
+    }else{
+        try{
+            const response = await fetch(`https://churchadmin-backend-api.onrender.com/admin/events/${user.user._id}`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newEvent),
+              });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Failed to create event: ${errorText}`);
+              }
+
+            const createdEvent = await response.json();
+
+            if (createdEvent){
+                setCreate(true)
+                router.navigate('/(protected)/(tabs)')
+            }
+          
+        }catch(err){
+            alert(err)
+            setPostEvent(false)
+        }
+    }
+    }
+
+
+
 
 
   return (
@@ -70,7 +101,7 @@ const EventScreen = () => {
         {vid ? 
           <VideoPlayer isConnect={false} contentFit={'cover'} full={false} native={false} pause={false} video={vid} />
           :
-          <Image source={{uri: img}}  style={{width: dimensions.width, height: '100%'}} />
+          <Image source={{uri: img}} resizeMode='cover' style={{width: dimensions.width, height: '100%'}} />
         }
       </Pressable>
 
@@ -116,15 +147,15 @@ const EventScreen = () => {
       </ScrollView>
 
         <View  style={styles.createView}>
-          <TouchableOpacity onPress={HandleSaveEvent} style={styles.Create}>
-            {create ? 
-              <Feather name='loader' size={25} color={'#000'} />
+          <TouchableOpacity onPress={createEvent} style={styles.Create}>
+            {postEvent ? 
+               <ActivityIndicator color={'black'} size={28} />
               :
               <Text>Create event</Text>
             }
           </TouchableOpacity>
         </View>
-      {create && <SuccessAlert success={true} showAlert={(value: any) => setCreate(value)} />}
+      {create && <SuccessAlert message='Event created successfully' success={true} showAlert={(value: any) => setCreate(value)} />}
       {
         showImagePicker && <ImagePickerComponent remove={(value: any) => {setImg(value); setVideo(value)}} videoOut={(value: any) => setVideo(value)} imageOut={(value: any) => setImg(value)} isVideo={true} Close={(value: any) => setShowImagePicker(value)} profile={'Upload image'} />
       }

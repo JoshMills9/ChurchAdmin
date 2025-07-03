@@ -2,13 +2,12 @@ import { COLORS } from '@/constants/colors';
 import { homeStyles } from '@/styles/home/home.styles';
 import Feather from '@expo/vector-icons/Feather';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FlatList, ImageBackground, Pressable, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { ModalView } from './eventModal';
 
-const Feeds = () => {
+const Feeds = ({event}: any) => {
 
   const data = [
     { id: '1', speaker: 'John Doe',  organiser: 'Daniel M', startDate: '19 June, 2025', endDate: '20 June, 2025',  title: 'Gloryland AG', about: 'Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa', img: require('../assets/images/d6.jpeg')},
@@ -27,22 +26,9 @@ const Feeds = () => {
   const styles = homeStyles(dimensions)
   const [isVisible, setIsvisble] = useState(false)
   const [Item, setItem] = useState({})
-  const [event, setEvent] = useState<any>([])
 
-  useEffect(() => {
-      const getEvents = async() => {
-        try{
-          const value = await AsyncStorage.getItem('events')
-          if(value !== null){
-            const data = JSON.parse(value)
-            setEvent((prevList: any) => [data, ...prevList])
-          }
-        }catch(err){
-          console.log(err)
-        }
-      }
-      getEvents()
-  },[])
+
+
 
  
   
@@ -53,14 +39,14 @@ const Feeds = () => {
           <View>
             {event.length !== 0 ? 
                   <FlatList 
-                  data={event?.sort((a: any, b: any) => a.img - b.img)} 
+                  data={event} 
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
-                  keyExtractor={(item, index) => item.id}
+                  keyExtractor={(item, index) => item._id}
                   style={{width: dimensions.width >= 400 ? 380 : 380 }}
                   renderItem={({item, index}) => (
                     <Pressable onPress={() => {setIsvisble(!isVisible); setItem(item)}}  style={{borderRadius: 15, opacity: isVisible ? 0.8 : 1, width: event.length === 1 ? dimensions.width >= 400 ? 360 : 250: dimensions.width >= 400 ? 250 : 220, marginRight: dimensions.height >= 700 ? 10 : 5,overflow:'hidden'}}> 
-                      <ImageBackground  source={{uri: item.img}} style={{width: event.length === 1 ? dimensions.width >= 400 ? 360 : 250: dimensions.width >= 400 ? 250 : 220, height:dimensions.height >= 700 ? 120 : 85 ,justifyContent: 'space-between', alignItems: 'flex-end',padding: 5, borderRadius: 15, }} >
+                      <ImageBackground resizeMode='cover'  source={{uri: item.img}} style={{width: event.length === 1 ? dimensions.width >= 400 ? 360 : 250: dimensions.width >= 400 ? 250 : 220, height:dimensions.height >= 700 ? 120 : 85 ,justifyContent: 'space-between', alignItems: 'flex-end',padding: 5, borderRadius: 15, }} >
                         <View style={{ width: dimensions.height >= 700 ? 25 : 20,justifyContent:"center",alignItems:"center", borderRadius:12.5, height: dimensions.height >= 700 ? 25 : 20,paddingHorizontal:5, backgroundColor:"rgba(0,0,0,0.5)"}}>  
                           <Ionicons name='ellipsis-horizontal-sharp' color={'white'} size={dimensions.height >= 700 ? 15 : 12}/>
                         </View>

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { ActivityIndicator, FlatList, ImageBackground, Keyboard, KeyboardAvoidingView, Platform, Text, TextInput, ToastAndroid, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 
 import { postStyles } from '@/src/styles/post/post'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { Link, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
 
 
 import { useExpoAudioRecorder } from '@/src/components/audioRecorder'
-import SuccessAlert from '@/src/components/successAlert'
 import VideoPlayer from '@/src/components/VideoPlayer'
 import { COLORS } from '@/src/constants/colors'
 import { getObject } from '@/src/constants/localStorage'
@@ -31,7 +30,7 @@ const CreatePost = () => {
 
 
 
-    const [savePost, setSavePost] = useState<any>([])
+    const [Posting, setPosting] = useState<any>(false)
     const [pallet, setPallet] = useState(false)
     const [color, setColor] = useState('');
     const [img, setImg] = useState<string>()
@@ -50,7 +49,6 @@ const CreatePost = () => {
     ]
 
     const post = {
-        id: title + text, 
         img: img,
         bg: color,
         text: text, 
@@ -65,13 +63,21 @@ const CreatePost = () => {
 
 
     const createPost = async() => {
-        const user = getObject('user');
+        setPosting(true)
+        const user = await getObject('user');
 
-        if(!img || !text || !vid || !voice){
-            return closeAlert && <SuccessAlert showAlert={(v: any) => setCloseAlert(v)} success={false} /> 
+        if (!user?.user?._id) {
+            console.warn('User ID not found');
+            return;
+          }
+
+        if(!title && !text && !img && !vid){
+            setPosting(false)
+            ToastAndroid.show("Post cannot be empty!", ToastAndroid.SHORT)
+            return
         }else{
             try{
-                const response = await fetch(`https://churchadmin-backend-api.onrender.com/admin/posts/${user.user.id}`, {
+                const response = await fetch(`https://churchadmin-backend-api.onrender.com/admin/posts/${user.user._id}`, {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
@@ -79,10 +85,21 @@ const CreatePost = () => {
                     body: JSON.stringify(post),
                   });
 
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Failed to create post: ${errorText}`);
+                  }
+
                 const createdPost = await response.json();
+
+                if (createdPost){
+                    ToastAndroid.show("Post successfully sent!", ToastAndroid.SHORT)
+                    router.navigate('/(protected)/(tabs)')
+                }
               
             }catch(err){
                 alert(err)
+                setPosting(false)
             }
         }
         }
@@ -230,11 +247,15 @@ const CreatePost = () => {
                         </TouchableOpacity>
                     </View>
                     {(text || img || vid || voice) &&
-                        <Link href={{'pathname' : '/(protected)/(tabs)'}} push asChild >
+             
                             <TouchableOpacity onPress={createPost} style={styles.post}>
-                                <Ionicons name='send-sharp' size={25} color={COLORS.CREATEBUTTON}  />
+                                {Posting ? 
+                                    <ActivityIndicator color={COLORS.CREATEBUTTON} size={28} />
+                                    :
+                                    <Ionicons name='send-sharp' size={25} color={COLORS.CREATEBUTTON}  />
+                                }
                             </TouchableOpacity>
-                        </Link>
+                
                     }
                 </View>
 

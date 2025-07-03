@@ -17,14 +17,14 @@ const SuccessAlert = ({showAlert, success, message} : {showAlert: any, success: 
                     <View style={{width: 100, height: 100, borderRadius:50 , borderStyle:"dotted" ,borderWidth: 2, borderColor: COLORS.CREATEBUTTON, alignItems: 'center' , justifyContent: 'center', marginTop: 20}}>
                         <Ionicons name='checkmark-circle-sharp' size={90}  color={COLORS.CREATEBUTTON}/>
                     </View>
-                    <Text style={styles.text}>{message}</Text>
+                    <Text style={styles.text}  adjustsFontSizeToFit={true} numberOfLines={1}>{message}</Text>
                 </>
                 :
                 <>
                     <View style={{width: 100, height: 100, borderRadius:50 , borderStyle:"dotted" ,borderWidth: 2, borderColor: 'red', alignItems: 'center' , justifyContent: 'center', marginTop: 20}}>
                         <Ionicons name='close-circle-sharp' size={90}  color={'red'}/>
                     </View>
-                    <Text style={styles.text}>{message}</Text>
+                    <Text style={styles.text} adjustsFontSizeToFit={true} numberOfLines={1}>{message}</Text>
                 </>
             }
 

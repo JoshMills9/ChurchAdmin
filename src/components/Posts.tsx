@@ -9,6 +9,7 @@ import ViewPost from './ViewPost';
 
 
 const Posts = ({post}: any) => {
+
     //const [post, setPost] = useState();
   
   /*const data = [
@@ -29,18 +30,20 @@ const Posts = ({post}: any) => {
   const [showPost, setShowPost] = useState(false)
   const [selected, setSelected] = useState({})
 
+
 //"height": 783.2727272727273, "scale": 2.75, "width": 392.72727272727275}
 
+ 
 
 
   return (
     <View style={{height: dimensions.height >= 700 ? dimensions.height * 0.68 : dimensions.height * 0.69}}>
-      {(post && post?.length !== 0) ? 
+      {(post && post.length !== 0) ? 
             <FlatList
-            data={post?.sort((a:any, b:any) => b.id - a.id)}
+            data={post}
             showsVerticalScrollIndicator={false}
             style={{flex: 1,}}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item._id}
             renderItem={({item, index}) => {
               return(
               <Pressable onPress={() => {setShowPost(true); setSelected(item);}} style={styles.container}>
@@ -48,7 +51,7 @@ const Posts = ({post}: any) => {
                       <>
                       {(item.tagged && item.tagged?.length !== 0) ? 
                           item.tagged.map((item: any) => (
-                            <View key={item.id} style={{ flex: 1}}>
+                            <View key={item._id} style={{ flex: 1}}>
                               <View style={{ width:70, flexDirection:'row', gap: 5,alignItems:"center",position:'absolute',top:5, right: 5, zIndex: 9,paddingHorizontal: 5, borderRadius:5, height:25, backgroundColor:'rgba(0,0,0,0.5)'}}>  
                                     <Ionicons name='ellipse-sharp' size={5} color={'red'} />
                                     <Text style={{fontSize: 12, color: 'white', fontWeight: '500'}}>Testified</Text>
@@ -118,7 +121,7 @@ const Posts = ({post}: any) => {
                     { (item.tagged && item.tagged?.length !== 0) ?
                         
                         item.tagged.map((item: any) => (
-                          <ImageBackground key={item.id} style={[styles.image, {backgroundColor: item.bg ? item.bg : ''}]} resizeMode='cover' source={{uri : item.img}}>
+                          <ImageBackground key={item._id} style={[styles.image, {backgroundColor: item.bg ? item.bg : ''}]} resizeMode='cover' source={{uri : item.img}}>
                             <View style={{ width:70, flexDirection:'row', gap: 5,alignItems:"center",position:'absolute',top:5, right: 5, zIndex: 9,paddingHorizontal: 5, borderRadius:5, height:25, backgroundColor:'rgba(0,0,0,0.5)'}}>  
                                     <Ionicons name='ellipse-sharp' size={5} color={'red'} />
                                     <Text style={{fontSize: 12, color: 'white', fontWeight: '500'}}>Testified</Text>

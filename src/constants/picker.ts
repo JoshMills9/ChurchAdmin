@@ -45,7 +45,7 @@ export const Picker = async(media: any) => {
             mediaTypes: ['images', 'livePhotos'],
             allowsEditing: true,
             legacy: true,
-            aspect: [5, 9],
+            aspect: [9, 9],
             quality: 1,
           });
       
@@ -57,7 +57,7 @@ export const Picker = async(media: any) => {
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ['images'],
             allowsEditing: true,
-            aspect: [5, 9],
+            aspect: [9, 9],
             quality: 1,
           });
       

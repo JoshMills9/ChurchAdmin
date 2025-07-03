@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setObject } from "@/constants/localStorage";
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import { COLORS } from "../constants/colors";
@@ -11,7 +11,7 @@ const CommunityConnect = ({onPress}: {onPress: any}) => {
 
   const handleConnect = async () => {
     try {
-      await AsyncStorage.setItem('connected', 'connect');
+      await setObject('connected', {connect: 'connect'});
     } catch (e) {
       console.error('Failed to save the data to the storage', e);
     }

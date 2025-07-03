@@ -58,13 +58,13 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Allow ChurchAdmin to access your photos"
+          "photosPermission": "Allow Church Admin to access your photos"
         }
       ],
       [
         "expo-audio",
         {
-          "microphonePermission": "Allow ChurchAdmin to access your microphone."
+          "microphonePermission": "Allow Church Admin to access your microphone."
         }
       ],
       "expo-web-browser"

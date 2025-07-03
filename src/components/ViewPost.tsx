@@ -170,7 +170,7 @@ const ViewPost = ({onClose, item}: {onClose: any, item: any}) => {
                                 </ImageBackground>
                              ))
                             :
-                            <ImageBackground resizeMode='contain' style={[styles.image, {backgroundColor: item.bg, height: 700, width: dimensions.width,}]}   source={{uri : item.img}}>
+                            <ImageBackground resizeMode='cover' style={[styles.image, {backgroundColor: item.bg, height: '100%', width: dimensions.width,}]}   source={{uri : item.img}}>
                                 <View style={{flex: 1, justifyContent: 'center',}}>
                                     <View style={{padding: 15}}>
                                     <Text style={styles.text}>{item.text}</Text>
@@ -235,7 +235,7 @@ const modalStyles = (dimensions: any) => StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.90)',
         width: dimensions.width,
         height: '100%', 
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
         
     },
     topView: {

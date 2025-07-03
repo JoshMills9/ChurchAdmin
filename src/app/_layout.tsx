@@ -11,23 +11,34 @@ export default function RootLayout() {
   const [hasSeenHomeScreen, setHasSeenHomeScreen] = useState<boolean | null>(null);
 
   const getUser = async(user: any) => {
-    const res = await fetch(`https://churchadmin-backend-api.onrender.com/admin/users/${user?.user?.phone}`);
-    const U = await res.json();
+    const phone = user?.user.phone ? user.user.phone : user.user
 
-    setObject('user', { user: U , status: user?.status})
+    if(!phone){
+      return
+    }
+
+    const res = await fetch(`https://churchadmin-backend-api.onrender.com/admin/users/${phone}`);
+    const U = await res.json();
+    if(!res.ok){
+      return
+    }
+    setObject('user', { user: U , status: user.status})
   }
 
 
 
   useLayoutEffect(() => {
-    const user = getObject('user');
-    setHasSeenHomeScreen(user?.status);
+        const intervalId = setInterval( async () => {
+          const user = await getObject('user');
+          setHasSeenHomeScreen(user?.status);
 
-    if(user){
-      getUser(user)
-    }
+          getUser(user);
+        }, 1000);
+    
+        // ✅ Cleanup function to clear interval
+        return () => clearInterval(intervalId);
 
-  },[])
+  },[hasSeenHomeScreen])
 
   if (hasSeenHomeScreen === null) {
     return null;
@@ -39,8 +50,8 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <SafeAreaView style={{flex: 1}}>
         <StatusBar backgroundColor={"transparent"} barStyle={'light-content'}/>
-        <Stack screenOptions={{headerShown: false}} initialRouteName={hasSeenHomeScreen ? "(protected)/(tabs)" : '(onboarding)/index'}>
-          <Stack.Screen name="(onboarding)/index" />
+        <Stack screenOptions={{headerShown: false}}   initialRouteName={hasSeenHomeScreen ? "(protected)/(tabs)" : '(onboarding)/index'}>
+          <Stack.Screen  name="(onboarding)/index" />
         </Stack>
       </SafeAreaView>
     </SafeAreaProvider>
